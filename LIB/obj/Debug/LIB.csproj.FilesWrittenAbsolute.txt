@@ -1,5 +1,10 @@
-/root/Downloads/Exercise_7_c#/LIB/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/root/Downloads/Exercise_7_c#/LIB/bin/Debug/LIB.dll.mdb
-/root/Downloads/Exercise_7_c#/LIB/bin/Debug/LIB.dll
-/root/Downloads/Exercise_7_c#/LIB/obj/Debug/LIB.dll
-/root/Downloads/Exercise_7_c#/LIB/obj/Debug/LIB.dll.mdb
+/root/Desktop/Exercise_7_c#/LIB/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/Exercise_7_c#/LIB/bin/Debug/LIB.dll.mdb
+/root/Desktop/Exercise_7_c#/LIB/bin/Debug/LIB.dll
+/root/Desktop/Exercise_7_c#/LIB/obj/Debug/LIB.dll
+/root/Desktop/Exercise_7_c#/LIB/obj/Debug/LIB.dll.mdb
+/root/Desktop/I4IKNHandIn1/LIB/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/I4IKNHandIn1/LIB/bin/Debug/LIB.dll.mdb
+/root/Desktop/I4IKNHandIn1/LIB/bin/Debug/LIB.dll
+/root/Desktop/I4IKNHandIn1/LIB/obj/Debug/LIB.dll
+/root/Desktop/I4IKNHandIn1/LIB/obj/Debug/LIB.dll.mdb

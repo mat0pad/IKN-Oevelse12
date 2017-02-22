@@ -7,8 +7,8 @@ namespace tcp
 {
 	class file_client
 	{
-		System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
-
+		TcpClient clientSocket = new TcpClient();
+		NetworkStream serverStream;
 		/// <summary>
 		/// The PORT.
 		/// </summary>
@@ -26,18 +26,32 @@ namespace tcp
 		/// </param>
 		private file_client (string[] args)
 		{
-			// TO DO Your own code
-			clientSocket.Connect("10.0.0.1", PORT);
-			NetworkStream serverStream = clientSocket.GetStream();
-			byte[] outStream = System.Text.Encoding.ASCII.GetBytes("DATA FROM CLIENT" + "$");
-			serverStream.Write(outStream, 0, outStream.Length);
-			serverStream.Flush();
+			
+			clientSocket.Connect("10.0.0.2", PORT);
+			Console.WriteLine ("Client Connected to server");
+			serverStream = clientSocket.GetStream ();
 
-			byte[] inStream = new byte[BUFSIZE];
-			serverStream.Read(inStream, 0, (int)clientSocket.ReceiveBufferSize);
-			string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+			SendRequest ();
+			long file_size = ReadSize ();
+
 		}
 
+
+
+		private void SendRequest()
+		{
+			Console.WriteLine ("Write the name of file:");
+			string Request = Console.ReadLine ();
+			LIB.writeTextTCP (serverStream, Request);
+		}
+
+
+		private long ReadSize()
+		{
+			long size = long.Parse (LIB.readTextTCP (serverStream));
+			Console.WriteLine ("Size is: {0}", size);
+			return size;
+		}
 		/// <summary>
 		/// Receives the file.
 		/// </summary>

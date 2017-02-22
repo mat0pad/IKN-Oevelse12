@@ -1,7 +1,10 @@
-/root/Downloads/Exercise_7_c#/file_client/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/root/Downloads/Exercise_7_c#/file_client/bin/Debug/file_client.exe.mdb
-/root/Downloads/Exercise_7_c#/file_client/bin/Debug/file_client.exe
-/root/Downloads/Exercise_7_c#/file_client/obj/x86/Debug/file_client.exe
-/root/Downloads/Exercise_7_c#/file_client/obj/x86/Debug/file_client.exe.mdb
-/root/Downloads/Exercise_7_c#/file_client/bin/Debug/LIB.dll
-/root/Downloads/Exercise_7_c#/file_client/bin/Debug/LIB.dll.mdb
+/root/Desktop/Exercise_7_c#/file_client/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/Exercise_7_c#/file_client/bin/Debug/file_client.exe.mdb
+/root/Desktop/Exercise_7_c#/file_client/bin/Debug/file_client.exe
+/root/Desktop/Exercise_7_c#/file_client/obj/x86/Debug/file_client.exe
+/root/Desktop/Exercise_7_c#/file_client/obj/x86/Debug/file_client.exe.mdb
+/root/Desktop/I4IKNHandIn1/file_client/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/I4IKNHandIn1/file_client/bin/Debug/file_client.exe.mdb
+/root/Desktop/I4IKNHandIn1/file_client/bin/Debug/file_client.exe
+/root/Desktop/I4IKNHandIn1/file_client/obj/x86/Debug/file_client.exe
+/root/Desktop/I4IKNHandIn1/file_client/obj/x86/Debug/file_client.exe.mdb

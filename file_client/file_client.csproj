@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE28A31A-6194-40D8-9478-022D47CB6517}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -36,12 +36,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="file_client.cs" />
+    <Compile Include="lib.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\LIB\LIB.csproj">
-      <Project>{B74C6B12-6130-4C53-B95D-4F6F998A24CC}</Project>
-      <Name>LIB</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
