@@ -1,0 +1,7 @@
+/root/Downloads/Exercise_7_c#/file_server/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Downloads/Exercise_7_c#/file_server/bin/Debug/file_server.exe.mdb
+/root/Downloads/Exercise_7_c#/file_server/bin/Debug/file_server.exe
+/root/Downloads/Exercise_7_c#/file_server/obj/x86/Debug/file_server.exe
+/root/Downloads/Exercise_7_c#/file_server/obj/x86/Debug/file_server.exe.mdb
+/root/Downloads/Exercise_7_c#/file_server/bin/Debug/LIB.dll
+/root/Downloads/Exercise_7_c#/file_server/bin/Debug/LIB.dll.mdb
