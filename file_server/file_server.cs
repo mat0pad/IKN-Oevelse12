@@ -26,7 +26,7 @@ namespace tcp
 		/// Finder filstørrelsen
 		/// Kalder metoden sendFile
 		/// Lukker socketen og programmet
- 		/// </summary>
+		/// </summary>
 		private file_server ()
 		{
 			TcpListener serverSocket = new TcpListener (PORT);
@@ -35,7 +35,7 @@ namespace tcp
 
 			Console.WriteLine (" >> Server Started");
 			serverSocket.Start ();
-		
+
 
 
 			//int requestCount = 0;
@@ -54,11 +54,12 @@ namespace tcp
 					LIB.writeTextTCP (networkStream,size.ToString());
 				}while(size == 0);
 				sendFile (fileName, size, networkStream);
-			
+
 			}
 		}
 		private void sendFile (String fileName, long fileSize, NetworkStream io)
 		{
+			Console.WriteLine ("Sending file...");
 			byte[] data = File.ReadAllBytes (fileName); //reading data
 
 			byte[] dataLength = BitConverter.GetBytes (data.Length);
@@ -79,6 +80,7 @@ namespace tcp
 				bytesLeft -= nextPacketSize;
 
 			}
+			Console.WriteLine ("File send");
 			// TO DO Your own code
 		}
 

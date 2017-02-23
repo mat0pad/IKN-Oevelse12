@@ -12,3 +12,10 @@
 /root/Desktop/I4IKNHandIn1/file_server/obj/x86/Debug/file_server.exe.mdb
 /root/Desktop/I4IKNHandIn1/file_server/bin/Debug/LIB.dll
 /root/Desktop/I4IKNHandIn1/file_server/bin/Debug/LIB.dll.mdb
+/root/Desktop/IKN_OEVELSE7/file_server/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/IKN_OEVELSE7/file_server/bin/Debug/file_server.exe.mdb
+/root/Desktop/IKN_OEVELSE7/file_server/bin/Debug/file_server.exe
+/root/Desktop/IKN_OEVELSE7/file_server/obj/x86/Debug/file_server.exe
+/root/Desktop/IKN_OEVELSE7/file_server/obj/x86/Debug/file_server.exe.mdb
+/root/Desktop/IKN_OEVELSE7/file_server/bin/Debug/LIB.dll
+/root/Desktop/IKN_OEVELSE7/file_server/bin/Debug/LIB.dll.mdb

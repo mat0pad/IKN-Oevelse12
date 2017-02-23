@@ -31,18 +31,19 @@ namespace tcp
 			Console.WriteLine ("Client Connected to server");
 			serverStream = clientSocket.GetStream ();
 
-			SendRequest ();
-			long file_size = ReadSize ();
+			string Request = SendRequest ();
+			receiveFile (Request, serverStream);
 
 		}
 
 
 
-		private void SendRequest()
+		private string SendRequest()
 		{
 			Console.WriteLine ("Write the name of file:");
 			string Request = Console.ReadLine ();
 			LIB.writeTextTCP (serverStream, Request);
+			return Request;
 		}
 
 
@@ -63,6 +64,35 @@ namespace tcp
 		/// </param>
 		private void receiveFile (String fileName, NetworkStream io)
 		{
+			
+			long file_size = ReadSize();
+			int allBytesRead = 0;
+			Console.WriteLine ("Receiving file..");
+
+
+			byte[] length = new byte[file_size];
+			int bytesRead = serverStream.Read(length, 0, 4);
+			int dataLength = BitConverter.ToInt32(length,0);
+
+			// Read the data
+			int bytesLeft = dataLength;
+			byte[] data = new byte[dataLength];
+
+
+			while (bytesLeft > 0)
+			{
+
+				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
+
+				bytesRead = serverStream.Read(data, allBytesRead, nextPacketSize);
+				allBytesRead += bytesRead;
+				bytesLeft -= bytesRead;
+
+			}
+
+			Console.WriteLine ("File recieved");
+			File.WriteAllBytes("/root/Desktop/"+fileName, data);
+			Console.WriteLine (fileName + " Saved on Desktop");
 			// TO DO Your own code
 		}
 
