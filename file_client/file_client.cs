@@ -13,7 +13,7 @@ namespace tcp
 
 		const int PORT = 9000;
 
-		const int BUFSIZE = 1000;
+		const int BUFSIZE = 1000; //max of size send each iteration
 
 		private file_client (string[] args)
 		{
@@ -22,8 +22,8 @@ namespace tcp
 			Console.WriteLine ("Client Connected to server");
 			serverStream = clientSocket.GetStream ();
 
-			string Request = SendRequest ();
-			receiveFile (Request, serverStream);
+			string File_Name = SendRequest ();
+			receiveFile (File_Name, serverStream) ;
 
 		}
 			
@@ -46,8 +46,8 @@ namespace tcp
 		private void receiveFile (String fileName, NetworkStream io)
 		{
 			
-			long file_size = ReadSize();
-			int allBytesRead = 0;
+			long file_size = ReadSize(); //save size 
+			int allBytesRead = 0; //
 			Console.WriteLine ("Receiving file..");
 
 
@@ -57,10 +57,10 @@ namespace tcp
 
 			// Read the data
 			int bytesLeft = dataLength;
-			byte[] data = new byte[dataLength];
+			byte[] data = new byte[dataLength]; //var where file data get saved
 
 
-			while (bytesLeft > 0)
+			while (bytesLeft > 0) //itera until all bytes have been send
 			{
 
 				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
@@ -72,7 +72,7 @@ namespace tcp
 			}
 
 			Console.WriteLine ("File recieved");
-			File.WriteAllBytes("/root/Desktop/"+fileName, data);
+			File.WriteAllBytes("/root/Desktop/"+fileName, data); //saves file on Desktop
 			Console.WriteLine (fileName + " Saved on Desktop");
 		}
 			
