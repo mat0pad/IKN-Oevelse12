@@ -15,43 +15,50 @@ namespace tcp
 
 		const int BUFSIZE = 1000; //max of size send each iteration
 
+		long size = 0;
+
 		private file_client (string[] args)
 		{
 			
 			clientSocket.Connect("10.0.0.2", PORT);
 			Console.WriteLine ("Client Connected to server");
 			serverStream = clientSocket.GetStream ();
-
-			string File_Name = SendRequest ();
+			string File_Name = "";
+			while(size == 0) //iteration until file 
+			{
+				File_Name = SendRequest ();
+				ReadSize();
+				if (size == 0) {
+					Console.WriteLine ("File dosn't exist, try again");
+				}
+			}
 			receiveFile (File_Name, serverStream) ;
-
+			Console.WriteLine ("Connection closed..");
 		}
 			
 		private string SendRequest()
 		{
-			Console.WriteLine ("Write the name of file:");
+			Console.WriteLine ("Write the name of the file:");
 			string Request = Console.ReadLine ();
 			LIB.writeTextTCP (serverStream, Request);
 			return Request;
 		}
 
 
-		private long ReadSize()
+		private void ReadSize()
 		{
-			long size = long.Parse (LIB.readTextTCP (serverStream));
+			size = long.Parse (LIB.readTextTCP (serverStream));
 			Console.WriteLine ("Size is: {0}", size);
-			return size;
 		}
 
 		private void receiveFile (String fileName, NetworkStream io)
 		{
-			
-			long file_size = ReadSize(); //save size 
+			 
 			int allBytesRead = 0; //
 			Console.WriteLine ("Receiving file..");
 
 
-			byte[] length = new byte[file_size];
+			byte[] length = new byte[size];
 			int bytesRead = serverStream.Read(length, 0, 4);
 			int dataLength = BitConverter.ToInt32(length,0);
 
