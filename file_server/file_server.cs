@@ -57,8 +57,11 @@ namespace tcp
 				} while(size == 0); //Check if file exist 
 
 				sendFile (fileName, size, networkStream);
+
 				clientSocket.Close (); //Disconnet tcp connection
+
 				Console.WriteLine (" >> Connection closed with THIS client");
+
 			}
 
 		}
