@@ -24,15 +24,19 @@ namespace tcp
 
 			try {
 				
-				clientSocket.Connect ("10.0.0.2", PORT);
+				clientSocket.Connect ((args.Length != 2 ? "10.0.0.2" : args[0]), PORT);
 				Console.WriteLine (" >> Client Connected to server");
 				serverStream = clientSocket.GetStream ();
 
 				File_Name = "";
 
 				while (size == 0) { //iteration until file 
-					
-					File_Name = SendRequest ();
+
+					if(args.Length != 2)
+						File_Name = SendRequestFromInput();
+					else
+						File_Name = SendRequestFromArg(args[1]);
+
 					ReadSize ();
 
 					if (size == 0)
@@ -61,10 +65,17 @@ namespace tcp
 			
 		}
 
-		private string SendRequest ()
+		private string SendRequestFromInput ()
 		{
 			Console.WriteLine ("Write the name of the file:");
 			string Request = Console.ReadLine ();
+			LIB.writeTextTCP (serverStream, Request);
+			return Request;
+		}
+
+		private string SendRequestFromArg (string req)
+		{
+			string Request = req;
 			LIB.writeTextTCP (serverStream, Request);
 			return Request;
 		}
@@ -103,6 +114,7 @@ namespace tcp
 			}
 
 			Console.WriteLine ("File recieved");
+			Console.WriteLine ("Saving file..");
 			File.WriteAllBytes ("/root/Desktop/" + fileName, data); //saves file on Desktop
 			Console.WriteLine (fileName + " Saved on Desktop");
 		}
