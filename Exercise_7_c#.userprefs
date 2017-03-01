@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="file_server/file_server.csproj">
+﻿<Properties StartupItem="file_client/file_client.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

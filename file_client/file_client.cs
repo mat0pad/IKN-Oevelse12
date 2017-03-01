@@ -23,7 +23,7 @@ namespace tcp
 			string File_Name;
 
 			try {
-				
+
 				clientSocket.Connect ((args.Length != 2 ? "10.0.0.2" : args[0]), PORT);
 				Console.WriteLine (" >> Client Connected to server");
 				serverStream = clientSocket.GetStream ();
@@ -62,7 +62,7 @@ namespace tcp
 				Console.WriteLine (e.StackTrace.ToString ());
 
 			}
-			
+
 		}
 
 		private string SendRequestFromInput ()
@@ -89,21 +89,18 @@ namespace tcp
 
 		private void receiveFile (String fileName, NetworkStream io)
 		{
-			 
+
 			int allBytesRead = 0; //
 			Console.WriteLine ("Receiving file..");
 
-
-			byte[] length = new byte[size];
-			int bytesRead = serverStream.Read (length, 0, 4);
-			int dataLength = BitConverter.ToInt32 (length, 0);
+			int bytesRead = 0; //serverStream.Read (length, 0, 5);
 
 			// Read the data
-			int bytesLeft = dataLength;
-			byte[] data = new byte[dataLength]; //var where file data get saved
+			int bytesLeft = (int)size;
+			byte[] data = new byte[size]; //var where file data get saved
 
 
-			while (bytesLeft > 0) { //itera until all bytes have been send
+			while (bytesLeft > 0) { //iterate until all bytes have been send
 
 				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
 
