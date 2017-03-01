@@ -18,7 +18,7 @@ namespace tcp
 		const int BUFSIZE = 1000;
 		string fileName{get;set;}
 
-		/// <summary>
+		///<summary>
 		/// Initializes a new instance of the <see cref="file_server"/> class.
 		/// Opretter en socket.
 		/// Venter på en connect fra en klient.
@@ -36,9 +36,6 @@ namespace tcp
 			Console.WriteLine (" >> Server Started");
 			serverSocket.Start (); //Starts serversocket
 
-
-
-			//int requestCount = 0;
 
 			while (true) {
 				clientSocket = serverSocket.AcceptTcpClient (); //Accept connection with client
