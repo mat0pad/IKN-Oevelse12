@@ -71,7 +71,9 @@ namespace tcp
 			Console.WriteLine ("Sending file...");
 			byte[] data = File.ReadAllBytes (fileName); //Saves file content on data 
 
+
 			byte[] package = new byte[fileSize]; //prepares package for send
+
 			data.CopyTo (package,0); //copies data to package
 
 			int bytesSent = 0;
