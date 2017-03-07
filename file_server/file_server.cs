@@ -71,13 +71,11 @@ namespace tcp
 			Console.WriteLine ("Sending file...");
 			byte[] data = File.ReadAllBytes (fileName); //Saves file content on data 
 
-			byte[] dataLength = BitConverter.GetBytes (data.Length); //
-			byte[] package = new byte[4 + data.Length]; //prepares package for send
-			dataLength.CopyTo (package, 0); //copies datalength to package
-			data.CopyTo (package,4); //copies data to package
+			byte[] package = new byte[fileSize]; //prepares package for send
+			data.CopyTo (package,0); //copies data to package
 
 			int bytesSent = 0;
-			int bytesLeft = package.Length;
+			int bytesLeft = (int)fileSize;
 
 			while (bytesLeft > 0) { //keeps going until all bytes are send
 
