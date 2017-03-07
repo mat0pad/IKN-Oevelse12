@@ -104,7 +104,7 @@ namespace tcp
 
 				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
 
-				bytesRead = serverStream.Read (data, allBytesRead, nextPacketSize);
+				bytesRead = io.Read (data, allBytesRead, nextPacketSize);
 				allBytesRead += bytesRead;
 				bytesLeft -= bytesRead;
 
