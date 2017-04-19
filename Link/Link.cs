@@ -26,7 +26,7 @@ namespace Linklaget
 		/// </summary>
 		private byte[] buffer;
 
-		const int BUFFER_SIZE = 1000;
+		private int BUFFER_SIZE;
 
 		/// <summary>
 		/// The serial port.
@@ -55,6 +55,7 @@ namespace Linklaget
 				serialPort.Open();
 
 			buffer = new byte[(BUFSIZE*2)];
+			BUFFER_SIZE = BUFSIZE;
 
 			// Uncomment the next line to use timeout
 			//serialPort.ReadTimeout = 500;
@@ -74,32 +75,34 @@ namespace Linklaget
 		/// </param>
 		public void send (byte[] buf, int size)
 		{
+			if (size > BUFFER_SIZE)
+				throw new System.ArgumentException(@"Parameter cannot be larger than set buffersize of {BUFFER_SIZE}, was {size}", "size");
 
-			var tempBuf = new byte[size * 2];
 			var counter = 0;
 
 			for (int i = 0; i < size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
-					tempBuf[counter] = DELIMITERB;
-					tempBuf[counter+1] = DELIMITERC;
+					buffer[counter] = DELIMITERB;
+					buffer[counter+1] = DELIMITERC;
 
 					counter += 2;
 				} 
 				else if (buf [i].Equals (DELIMITERB)) {
 
-					tempBuf[counter] = DELIMITERB;
-					tempBuf[counter+1] = DELIMITERD;
+					buffer[counter] = DELIMITERB;
+					buffer[counter+1] = DELIMITERD;
 					counter += 2;
 				} 
 				else {
-					tempBuf[counter] = buf [i];
+					buffer[counter] = buf [i];
 					counter++;
 				}
 			}
-			Console.WriteLine ('A' + System.Text.Encoding.UTF8.GetString(tempBuf) + 'A');
-			//serialPort.Write('A' + tempBuf.ToString() + 'A');
+
+			Console.WriteLine ('A' + System.Text.Encoding.UTF8.GetString(buffer) + 'A');
+			serialPort.Write('A' + buffer.ToString() + 'A');
 		}
 
 		/// <summary>
@@ -118,9 +121,9 @@ namespace Linklaget
 			var tempBuf = new byte[BUFFER_SIZE];
 			var returnBuf = new byte[BUFFER_SIZE];
 
-			if (numOfBytes > 1000) {
+			if (numOfBytes > BUFFER_SIZE) {
 				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
-				numOfBytes = 1000;
+				numOfBytes = BUFFER_SIZE;
 			}
 			else {
 				serialPort.Read (tempBuf, 0, numOfBytes);
