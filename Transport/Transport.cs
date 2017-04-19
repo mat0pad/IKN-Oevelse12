@@ -132,7 +132,7 @@ namespace Transportlaget
 				// Set seqno
 				tempBuffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
 
-				// Calculate sum and low & high to index 0,1
+				// Calculate sum and low & high to index 0,1 ...
 				checksum.calcChecksum (ref tempBuffer, newSize);
 
 				// Send it through link layer

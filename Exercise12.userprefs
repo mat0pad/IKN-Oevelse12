@@ -3,9 +3,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Transport/Transport.cs">
     <Files>
       <File FileName="Link/Link.cs" Line="1" Column="1" />
-      <File FileName="Transport/TransConst.cs" Line="10" Column="2" />
-      <File FileName="Transport/Transport.cs" Line="141" Column="29" />
-      <File FileName="Transport/Checksum.cs" Line="45" Column="2" />
+      <File FileName="Transport/TransConst.cs" Line="1" Column="1" />
+      <File FileName="Transport/Transport.cs" Line="135" Column="53" />
+      <File FileName="Transport/Checksum.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
