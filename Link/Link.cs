@@ -14,11 +14,20 @@ namespace Linklaget
 		/// <summary>
 		/// The DELIMITE for slip protocol.
 		/// </summary>
-		const byte DELIMITER = (byte)'A';
+		const byte DELIMITERA = (byte)'A';
+
+		const byte DELIMITERB = (byte)'B';
+
+		const byte DELIMITERC = (byte)'C';
+
+		const byte DELIMITERD = (byte)'D';
 		/// <summary>
 		/// The buffer for link.
 		/// </summary>
 		private byte[] buffer;
+
+		const int BUFFER_SIZE = 1000;
+
 		/// <summary>
 		/// The serial port.
 		/// </summary>
@@ -33,11 +42,11 @@ namespace Linklaget
 			#if DEBUG
 				if(APP.Equals("FILE_SERVER"))
 				{
-					serialPort = new SerialPort("/dev/ttySn0",115200,Parity.None,8,StopBits.One);
+					serialPort = new SerialPort("/dev/ttyS1",115200,Parity.None,8,StopBits.One);
 				}
 				else
 				{
-					serialPort = new SerialPort("/dev/ttySn1",115200,Parity.None,8,StopBits.One);
+					serialPort = new SerialPort("/dev/ttyS1",115200,Parity.None,8,StopBits.One);
 				}
 			#else
 				serialPort = new SerialPort("/dev/ttyS1",115200,Parity.None,8,StopBits.One);
@@ -65,7 +74,32 @@ namespace Linklaget
 		/// </param>
 		public void send (byte[] buf, int size)
 		{
-	    	// TO DO Your own code
+
+			var tempBuf = new byte[size * 2];
+			var counter = 0;
+
+			for (int i = 0; i < size; i++) {
+			
+				if (buf [i].Equals (DELIMITERA)) {
+
+					tempBuf[counter] = DELIMITERB;
+					tempBuf[counter+1] = DELIMITERC;
+
+					counter += 2;
+				} 
+				else if (buf [i].Equals (DELIMITERB)) {
+
+					tempBuf[counter] = DELIMITERB;
+					tempBuf[counter+1] = DELIMITERD;
+					counter += 2;
+				} 
+				else {
+					tempBuf[counter] = buf [i];
+					counter++;
+				}
+			}
+			Console.WriteLine ('A' + System.Text.Encoding.UTF8.GetString(tempBuf) + 'A');
+			//serialPort.Write('A' + tempBuf.ToString() + 'A');
 		}
 
 		/// <summary>
@@ -79,8 +113,48 @@ namespace Linklaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-	    	// TO DO Your own code
-			return 0;
+			var numOfBytes = serialPort.BytesToRead;
+
+			var tempBuf = new byte[BUFFER_SIZE];
+			var returnBuf = new byte[BUFFER_SIZE];
+
+			if (numOfBytes > 1000) {
+				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
+				numOfBytes = 1000;
+			}
+			else {
+				serialPort.Read (tempBuf, 0, numOfBytes);
+			}
+
+			var counter = 0; 
+
+			// i = 1 to remove A start
+			for (int i = 1; i < numOfBytes; i++) {
+
+				if (tempBuf[i].Equals(DELIMITERB) && tempBuf[i+1].Equals(DELIMITERC)) {
+
+					returnBuf [counter] = DELIMITERA;
+					++counter;
+				} 
+				else if (tempBuf[i].Equals(DELIMITERB) && tempBuf[i+1].Equals(DELIMITERD)) {
+
+					returnBuf[counter] = DELIMITERB;
+					++counter;
+				} 
+				else {
+					
+					returnBuf[counter] = buf [i];
+					++counter;
+				}
+
+				if (i == numOfBytes - 1)
+					break;
+			}
+
+	    	
+			buf = returnBuf;
+
+			return counter+1;
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Net.Sockets;
+using Linklaget;
 
 namespace tcp
 {
@@ -30,43 +31,37 @@ namespace tcp
 		/// </summary>
 		private file_server ()
 		{
-			TcpListener serverSocket = new TcpListener (PORT);
-
-			TcpClient clientSocket = default(TcpClient);
-
+			
+			var size  = 0;
 			Console.WriteLine (" >> Server Started");
-			serverSocket.Start (); //Starts serversocket
-
-			long size;
-			NetworkStream networkStream;
+			Link link = new Link (1000,"FILE_SERVER");
 
 			while (true) {
 
-				clientSocket = serverSocket.AcceptTcpClient (); //Accept connection with client
 				Console.WriteLine (" >> Accept connection from NEW client"); 
-
-				networkStream = clientSocket.GetStream (); //Network stream for sending and recieving data
 
 				size = 0;
 
 				do {
-					fileName = LIB.readTextTCP (networkStream); //reads filename from client
-					size = LIB.check_File_Exists (fileName); //checks if file exist
-					LIB.writeTextTCP (networkStream, size.ToString ()); //Send size to client
+
+					//reads filename from client
+					//size = LIB.check_File_Exists (fileName); //checks if file exist
+					//Send size to client
+					String test = "AFBGA"; // ABCFBDGBCA
+					byte[] toSend = Encoding.ASCII.GetBytes(test);
+					link.send(toSend, toSend.Length);
+					size = 1;
 
 				} while(size == 0); //Check if file exist 
 
-				sendFile (fileName, size, networkStream);
-
-				clientSocket.Close (); //Disconnet tcp connection
 
 				Console.WriteLine (" >> Connection closed with THIS client");
-
+				break;
 			}
 
 		}
 
-		private void sendFile (String fileName, long fileSize, NetworkStream io)
+		private void sendFile (String fileName, long fileSize)
 		{
 			Console.WriteLine ("Sending file...");
 			byte[] data = File.ReadAllBytes (fileName); //Saves file content on data 
@@ -83,7 +78,7 @@ namespace tcp
 
 				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
 
-				io.Write (package, bytesSent, nextPacketSize); //write part of package with size nextpacketSize to client.
+				//io.Write (package, bytesSent, nextPacketSize); //write part of package with size nextpacketSize to client.
 				bytesSent += nextPacketSize;
 				bytesLeft -= nextPacketSize;
 

@@ -13,3 +13,8 @@
 /root/Desktop/IKN_OEVELSE7/LIB/bin/Debug/LIB.dll
 /root/Desktop/IKN_OEVELSE7/LIB/obj/Debug/LIB.dll
 /root/Desktop/IKN_OEVELSE7/LIB/obj/Debug/LIB.dll.mdb
+/root/Desktop/IKN_OEVELSE12/LIB/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/root/Desktop/IKN_OEVELSE12/LIB/bin/Debug/LIB.dll.mdb
+/root/Desktop/IKN_OEVELSE12/LIB/bin/Debug/LIB.dll
+/root/Desktop/IKN_OEVELSE12/LIB/obj/Debug/LIB.dll
+/root/Desktop/IKN_OEVELSE12/LIB/obj/Debug/LIB.dll.mdb
