@@ -7,113 +7,37 @@ namespace tcp
 {
 	class file_client
 	{
-		TcpClient clientSocket = new TcpClient ();
-
-		NetworkStream serverStream;
-
-		const int PORT = 9000;
-
 		const int BUFSIZE = 1000;
-		//max of size send each iteration
-
-		long size = 0;
 
 		private file_client (string[] args)
 		{
-			string File_Name;
+			byte[] barr = new byte[1000];
 
-			try {
+			Linklaget.Link link = new Linklaget.Link (1000, "FILE_CLIENT");
+			link.receive (barr);
 
-				clientSocket.Connect ((args.Length != 2 ? "10.0.0.2" : args[0]), PORT);
-				Console.WriteLine (" >> Client Connected to server");
-				serverStream = clientSocket.GetStream ();
-
-				File_Name = "";
-
-				while (size == 0) { //iteration until file 
-
-					if(args.Length != 2)
-						File_Name = SendRequestFromInput();
-					else
-						File_Name = SendRequestFromArg(args[1]);
-
-					ReadSize ();
-
-					if (size == 0)
-						Console.WriteLine ("File dosn't exist, try again");
-				}
-				receiveFile (LIB.extractFileName (File_Name), serverStream);
-
-				size = 0;
-				serverStream.Flush ();
-
-			} catch (SocketException) {
-				
-				Console.WriteLine (" >> Connection closed");
-				Console.WriteLine (" >> Host not found..");
-			} catch (UnauthorizedAccessException) {
-
-				Console.WriteLine (" >> Connection closed");
-				Console.WriteLine (" >> Access to specified file was denined..");
-			} catch (Exception e) {
-
-				Console.WriteLine ("Connection closed..");
-				Console.WriteLine (e.GetType ());
-				Console.WriteLine (e.StackTrace.ToString ());
-
-			}
-
+			Console.WriteLine (barr.ToString);
 		}
 
-		private string SendRequestFromInput ()
+		private void establishConnection()
 		{
-			Console.WriteLine ("Write the name of the file:");
-			string Request = Console.ReadLine ();
-			LIB.writeTextTCP (serverStream, Request);
-			return Request;
+			// Establish connection to server
 		}
 
-		private string SendRequestFromArg (string req)
+		private string SendFileRequest (string req)
 		{
-			string Request = req;
-			LIB.writeTextTCP (serverStream, Request);
-			return Request;
+			// Send filename to server
 		}
 
 
-		private void ReadSize ()
+		private int ReadSize ()
 		{
-			size = long.Parse (LIB.readTextTCP (serverStream));
-			Console.WriteLine ("Size is: {0} bytes", size);
+			// Read filesize send from server
 		}
 
 		private void receiveFile (String fileName, NetworkStream io)
 		{
-
-			int allBytesRead = 0; //
-			Console.WriteLine ("Receiving file..");
-
-			int bytesRead = 0; //serverStream.Read (length, 0, 5);
-
-			// Read the data
-			int bytesLeft = (int)size;
-			byte[] data = new byte[size]; //var where file data get saved
-
-
-			while (bytesLeft > 0) { //iterate until all bytes have been send
-
-				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
-
-				bytesRead = io.Read (data, allBytesRead, nextPacketSize);
-				allBytesRead += bytesRead;
-				bytesLeft -= bytesRead;
-
-			}
-
-			Console.WriteLine ("File recieved");
-			Console.WriteLine ("Saving file..");
-			File.WriteAllBytes ("/root/Desktop/" + fileName, data); //saves file on Desktop
-			Console.WriteLine (fileName + " Saved on Desktop");
+			// Receive file
 		}
 
 		public static void Main (string[] args)
