@@ -74,31 +74,35 @@ namespace Linklaget
 		/// </param>
 		public void send (byte[] buf, int size)
 		{
+			Array.Copy(buf,0,buffer,0,size);
 
-			var tempBuf = new byte[size * 2];
-			var counter = 0;
+			var counter = 5;
+			buffer [4] = DELIMITERA;
 
-			for (int i = 0; i < size; i++) {
+			for (int i = 4 ; i < size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
-					tempBuf[counter] = DELIMITERB;
-					tempBuf[counter+1] = DELIMITERC;
+					buffer[counter] = DELIMITERB;
+					buffer[counter+1] = DELIMITERC;
 
 					counter += 2;
 				} 
 				else if (buf [i].Equals (DELIMITERB)) {
 
-					tempBuf[counter] = DELIMITERB;
-					tempBuf[counter+1] = DELIMITERD;
+					buffer[counter] = DELIMITERB;
+					buffer[counter+1] = DELIMITERD;
 					counter += 2;
 				} 
 				else {
-					tempBuf[counter] = buf [i];
+					buffer[counter] = buf [i];
 					counter++;
 				}
 			}
-			Console.WriteLine ('A' + System.Text.Encoding.UTF8.GetString(tempBuf) + 'A');
+
+			buffer [counter] = DELIMITERA;
+
+			Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer));
 			//serialPort.Write('A' + tempBuf.ToString() + 'A');
 		}
 

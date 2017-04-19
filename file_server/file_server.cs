@@ -47,7 +47,7 @@ namespace tcp
 					//reads filename from client
 					//size = LIB.check_File_Exists (fileName); //checks if file exist
 					//Send size to client
-					String test = "AFBGA"; // ABCFBDGBCA
+					String test = "0101AFBGA"; // ABCFBDGBCA
 					byte[] toSend = Encoding.ASCII.GetBytes(test);
 					link.send(toSend, toSend.Length);
 					size = 1;

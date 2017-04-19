@@ -7,9 +7,6 @@ namespace tcp
 {
 	class file_client
 	{
-		TcpClient clientSocket = new TcpClient ();
-
-		NetworkStream serverStream;
 
 		const int PORT = 9000;
 
@@ -22,69 +19,22 @@ namespace tcp
 		{
 			string File_Name;
 
-			try {
-
-				clientSocket.Connect ((args.Length != 2 ? "10.0.0.2" : args[0]), PORT);
-				Console.WriteLine (" >> Client Connected to server");
-				serverStream = clientSocket.GetStream ();
-
-				File_Name = "";
-
-				while (size == 0) { //iteration until file 
-
-					if(args.Length != 2)
-						File_Name = SendRequestFromInput();
-					else
-						File_Name = SendRequestFromArg(args[1]);
-
-					ReadSize ();
-
-					if (size == 0)
-						Console.WriteLine ("File dosn't exist, try again");
-				}
-				receiveFile (LIB.extractFileName (File_Name), serverStream);
-
-				size = 0;
-				serverStream.Flush ();
-
-			} catch (SocketException) {
-				
-				Console.WriteLine (" >> Connection closed");
-				Console.WriteLine (" >> Host not found..");
-			} catch (UnauthorizedAccessException) {
-
-				Console.WriteLine (" >> Connection closed");
-				Console.WriteLine (" >> Access to specified file was denined..");
-			} catch (Exception e) {
-
-				Console.WriteLine ("Connection closed..");
-				Console.WriteLine (e.GetType ());
-				Console.WriteLine (e.StackTrace.ToString ());
-
-			}
 
 		}
 
 		private string SendRequestFromInput ()
 		{
-			Console.WriteLine ("Write the name of the file:");
-			string Request = Console.ReadLine ();
-			LIB.writeTextTCP (serverStream, Request);
-			return Request;
+
 		}
 
 		private string SendRequestFromArg (string req)
 		{
-			string Request = req;
-			LIB.writeTextTCP (serverStream, Request);
-			return Request;
+			
 		}
 
 
 		private void ReadSize ()
 		{
-			size = long.Parse (LIB.readTextTCP (serverStream));
-			Console.WriteLine ("Size is: {0} bytes", size);
 		}
 
 		private void receiveFile (String fileName, NetworkStream io)

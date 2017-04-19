@@ -24,26 +24,7 @@ namespace tcp
     	{
     		return (fileName.LastIndexOf('/')==0 ? fileName : fileName.Substring(fileName.LastIndexOf('/')+1));
     	}
-
-		/// <summary>
-		/// Reads the text from the server/client
-		/// </summary>
-		/// <returns>
-		/// The text.
-		/// </returns>
-		/// <param name='io'>
-		/// Network stream for reading from the server/client.
-		/// </param>
-		public static String readTextTCP (NetworkStream io)
-		{
-	        String line = "";
-	        char ch;
-	        
-	        while((ch = (char)io.ReadByte()) != 0)
-	        	line += ch;
-
-	        return line;
-		}
+			
 
 		/// <summary>
 		/// Check_s the file_ exists.

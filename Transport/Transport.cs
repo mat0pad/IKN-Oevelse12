@@ -39,6 +39,8 @@ namespace Transportlaget
 		/// The DEFAULT_SEQNO.
 		/// </summary>
 		private const int DEFAULT_SEQNO = 2;
+
+		private int BUFFER_SIZE = 0;
 		/// <summary>
 		/// The data received. True = received data in receiveAck, False = not received data in receiveAck
 		/// </summary>
@@ -60,6 +62,7 @@ namespace Transportlaget
 			old_seqNo = DEFAULT_SEQNO;
 			errorCount = 0;
 			dataReceived = false;
+			BUFFER_SIZE = BUFSIZE;
 		}
 
 		/// <summary>
@@ -114,7 +117,36 @@ namespace Transportlaget
 		/// </param>
 		public void send(byte[] buf, int size)
 		{
-			// TO DO Your own code
+			if(size <= BUFFER_SIZE){
+
+				int newSize = size + 4;
+
+				byte[] tempBuffer = new byte[newSize];
+
+				// Copy to tempbuffer
+				Array.Copy (buf, 0, tempBuffer, 4, newSize);
+
+				// Set type
+				tempBuffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
+
+				// Set seqno
+				tempBuffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
+
+				// Calculate sum and low & high to index 0,1
+				checksum.calcChecksum (ref tempBuffer, newSize);
+
+				// Send it through link layer
+				link.send (tempBuffer, newSize);
+
+				// Receive ack or resend
+				while (!receiveAck ()) {
+					// Send it through link layer
+					link.send (tempBuffer, newSize);
+				}
+			}
+			else
+				throw new ArgumentOutOfRangeException("Size is big than " + BUFFER_SIZE);
+
 		}
 
 		/// <summary>
@@ -125,7 +157,12 @@ namespace Transportlaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-			// TO DO Your own code
+			// Receive size
+			recvSize = link.receive( ref buffer);
+
+
+
+
 			return 0;
 		}
 	}
