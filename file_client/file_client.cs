@@ -7,63 +7,59 @@ namespace tcp
 {
 	class file_client
 	{
+<<<<<<< HEAD
 
 		const int PORT = 9000;
 
+=======
+>>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
 		const int BUFSIZE = 1000;
-		//max of size send each iteration
-
-		long size = 0;
 
 		private file_client (string[] args)
 		{
+<<<<<<< HEAD
 			string File_Name;
 
+=======
+			byte[] barr = new byte[1000];
 
+			Linklaget.Link link = new Linklaget.Link (1000, "FILE_CLIENT");
+			link.receive (barr);
+>>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
+
+			Console.WriteLine (barr.ToString);
 		}
 
-		private string SendRequestFromInput ()
+		private void establishConnection()
 		{
+<<<<<<< HEAD
 
+=======
+			// Establish connection to server
+>>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
 		}
 
-		private string SendRequestFromArg (string req)
+		private string SendFileRequest (string req)
 		{
+<<<<<<< HEAD
 			
+=======
+			// Send filename to server
+>>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
 		}
 
 
-		private void ReadSize ()
+		private int ReadSize ()
 		{
+<<<<<<< HEAD
+=======
+			// Read filesize send from server
+>>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
 		}
 
 		private void receiveFile (String fileName, NetworkStream io)
 		{
-
-			int allBytesRead = 0; //
-			Console.WriteLine ("Receiving file..");
-
-			int bytesRead = 0; //serverStream.Read (length, 0, 5);
-
-			// Read the data
-			int bytesLeft = (int)size;
-			byte[] data = new byte[size]; //var where file data get saved
-
-
-			while (bytesLeft > 0) { //iterate until all bytes have been send
-
-				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
-
-				bytesRead = io.Read (data, allBytesRead, nextPacketSize);
-				allBytesRead += bytesRead;
-				bytesLeft -= bytesRead;
-
-			}
-
-			Console.WriteLine ("File recieved");
-			Console.WriteLine ("Saving file..");
-			File.WriteAllBytes ("/root/Desktop/" + fileName, data); //saves file on Desktop
-			Console.WriteLine (fileName + " Saved on Desktop");
+			// Receive file
 		}
 
 		public static void Main (string[] args)

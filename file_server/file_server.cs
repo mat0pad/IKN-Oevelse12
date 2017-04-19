@@ -61,32 +61,6 @@ namespace tcp
 
 		}
 
-		private void sendFile (String fileName, long fileSize)
-		{
-			Console.WriteLine ("Sending file...");
-			byte[] data = File.ReadAllBytes (fileName); //Saves file content on data 
-
-
-			byte[] package = new byte[fileSize]; //prepares package for send
-
-			data.CopyTo (package,0); //copies data to package
-
-			int bytesSent = 0;
-			int bytesLeft = (int)fileSize;
-
-			while (bytesLeft > 0) { //keeps going until all bytes are send
-
-				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
-
-				//io.Write (package, bytesSent, nextPacketSize); //write part of package with size nextpacketSize to client.
-				bytesSent += nextPacketSize;
-				bytesLeft -= nextPacketSize;
-
-			}
-			Console.WriteLine ("File sended");
-
-		}
-
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Server starts...");
