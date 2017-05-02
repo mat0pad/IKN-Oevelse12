@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Net.Sockets;
 using Linklaget;
+using Transportlaget;
 
 namespace tcp
 {
@@ -34,7 +35,9 @@ namespace tcp
 			
 			var size  = 0;
 			Console.WriteLine (" >> Server Started");
-			Link link = new Link (1000,"FILE_SERVER");
+			//Link link = new Link (1000,"FILE_SERVER");
+
+			Transport trans = new Transport(1000,"FILE_SERVER");
 
 			while (true) {
 
@@ -42,18 +45,21 @@ namespace tcp
 
 				size = 0;
 
+				byte[] receiver = new byte[BUFSIZE];
+
 				do {
 
 					//reads filename from client
 					//size = LIB.check_File_Exists (fileName); //checks if file exist
 					//Send size to client
-					String test = "0101AFBGA"; // ABCFBDGBCA
-					byte[] toSend = Encoding.ASCII.GetBytes(test);
-					link.send(toSend, toSend.Length);
+
+					trans.receive(ref receiver);
 					size = 1;
 
 				} while(size == 0); //Check if file exist 
 
+
+				Console.WriteLine (System.Text.Encoding.UTF8.GetString (receiver));
 
 				Console.WriteLine (" >> Connection closed with THIS client");
 				break;

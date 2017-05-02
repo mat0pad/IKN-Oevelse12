@@ -75,17 +75,15 @@ namespace Linklaget
 		/// </param>
 		public void send (byte[] buf, int size)
 		{
-<<<<<<< HEAD
+			if (size > BUFFER_SIZE)
+				throw new System.ArgumentException(@"Parameter cannot be larger than set buffersize of {BUFFER_SIZE}, was {size}", "size");
+			
+
 			Array.Copy(buf,0,buffer,0,size);
 
 			var counter = 5;
 			buffer [4] = DELIMITERA;
-=======
-			if (size > BUFFER_SIZE)
-				throw new System.ArgumentException(@"Parameter cannot be larger than set buffersize of {BUFFER_SIZE}, was {size}", "size");
 
-			var counter = 0;
->>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
 
 			for (int i = 4 ; i < size; i++) {
 			
@@ -107,16 +105,37 @@ namespace Linklaget
 					counter++;
 				}
 			}
-
-<<<<<<< HEAD
+				
 			buffer [counter] = DELIMITERA;
 
-			Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer));
-			//serialPort.Write('A' + tempBuf.ToString() + 'A');
-=======
-			Console.WriteLine ('A' + System.Text.Encoding.UTF8.GetString(buffer) + 'A');
-			serialPort.Write('A' + buffer.ToString() + 'A');
->>>>>>> bb0c81219631f7699600d5158b8289866c0ce645
+			Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer).Substring(4));
+
+			byte[] test = new byte[4];
+			test [0] = buffer [0];
+			test [1] = buffer [1];
+			test [2] = buffer [2];
+			test [3] = buffer [3];
+
+
+			Console.WriteLine (BytesToString(test));
+			serialPort.Write(buffer.ToString());
+
+		}
+
+		public static string BytesToString(byte[] byteArray)
+		{
+			System.Text.StringBuilder sb = new System.Text.StringBuilder("Header cotains { ");
+			for(var i = 0; i < byteArray.Length;i++)
+			{
+				var b = byteArray[i];
+				sb.Append(b);
+				if (i < byteArray.Length -1)
+				{
+					sb.Append(", ");
+				}
+			}
+			sb.Append(" }");
+			return sb.ToString();
 		}
 
 		/// <summary>

@@ -121,31 +121,32 @@ namespace Transportlaget
 
 				int newSize = size + 4;
 
-				byte[] tempBuffer = new byte[newSize];
+				// set seq to not old seq
+				seqNo = (byte)((old_seqNo + 1) % 2);
 
 				// Copy to tempbuffer
-				Array.Copy (buf, 0, tempBuffer, 4, newSize);
+				Array.Copy (buf, 0, buffer, 4, size);
 
 				// Set type
-				tempBuffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
+				buffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
 
 				// Set seqno
-				tempBuffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
+				buffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
 
 				// Calculate sum and low & high to index 0,1 ...
-				checksum.calcChecksum (ref tempBuffer, newSize);
+				checksum.calcChecksum (ref buffer, newSize);
 
 				// Send it through link layer
-				link.send (tempBuffer, newSize);
+				link.send (buffer, newSize);
 
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
-					link.send (tempBuffer, newSize);
+					link.send (buffer, newSize);
 				}
 			}
 			else
-				throw new ArgumentOutOfRangeException("Size is big than " + BUFFER_SIZE);
+				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
 
 		}
 
@@ -157,13 +158,36 @@ namespace Transportlaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-			// Receive size
-			recvSize = link.receive( ref buffer);
+			while (true) {
+
+				// Receive size
+				recvSize = link.receive (ref buffer);
+
+				seqNo = buffer[(int)TransCHKSUM.SEQNO];
 
 
+				// Send Ack
+				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
+
+					// Set seq
+					old_seqNo = seqNo;
+
+					// Send ack
+					sendAck (Boolean.Parse(TransType.ACK.ToString()));
+
+					break;
+				} else {
+					
+					// Ack for resend
+					sendAck (Boolean.Parse(TransType.ACK.ToString()));
+				}
+			}
 
 
-			return 0;
+			Array.Copy (buffer, 4, buf, 0, buf.Length);
+			//buf = buffer.
+
+			return recvSize;
 		}
 	}
 }
