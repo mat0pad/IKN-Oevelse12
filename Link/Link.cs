@@ -162,29 +162,37 @@ namespace Linklaget
 				serialPort.Read (tempBuf, 0, numOfBytes);
 			}
 
-			var counter = 0; 
+			returnBuf [0] = tempBuf [0];
+			returnBuf [1] = tempBuf [1];
+			returnBuf [2] = tempBuf [2];
+			returnBuf [3] = tempBuf [3];
+
+			var counter = 4; 
 
 			// i = 1 to remove A start
-			for (int i = 1; i < numOfBytes; i++) {
+			for (int i = 4; i < numOfBytes; i++) {
 
-				if (tempBuf[i].Equals(DELIMITERB) && tempBuf[i+1].Equals(DELIMITERC)) {
+				if (tempBuf [i].Equals (DELIMITERA)) {
 
-					returnBuf [counter] = DELIMITERA;
-					++counter;
-				} 
-				else if (tempBuf[i].Equals(DELIMITERB) && tempBuf[i+1].Equals(DELIMITERD)) {
-
-					returnBuf[counter] = DELIMITERB;
-					++counter;
-				} 
-				else {
+					if (i == numOfBytes - 1)
+						break;
 					
-					returnBuf[counter] = buf [i];
-					++counter;
-				}
+				} else {
+					
+					if (tempBuf [i].Equals (DELIMITERB) && tempBuf [i + 1].Equals (DELIMITERC)) {
 
-				if (i == numOfBytes - 1)
-					break;
+						returnBuf [counter] = DELIMITERA;
+						++counter;
+					} else if (tempBuf [i].Equals (DELIMITERB) && tempBuf [i + 1].Equals (DELIMITERD)) {
+
+						returnBuf [counter] = DELIMITERB;
+						++counter;
+					} else {
+					
+						returnBuf [counter] = buf [i];
+						++counter;
+					}
+				}
 			}
 
 	    	

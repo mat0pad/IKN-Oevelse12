@@ -124,7 +124,7 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
-				// Copy to tempbuffer
+				// Copy to buffer
 				Array.Copy (buf, 0, buffer, 4, size);
 
 				// Set type
@@ -187,7 +187,7 @@ namespace Transportlaget
 			Array.Copy (buffer, 4, buf, 0, buf.Length);
 			//buf = buffer.
 
-			return recvSize;
+			return recvSize-4;
 		}
 	}
 }

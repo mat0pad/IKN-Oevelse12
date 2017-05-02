@@ -17,14 +17,14 @@ namespace client
 			string File_Name;
 
 
-			byte[] barr = new byte[1000];
+			byte[] barr = new byte[100];
 
 			barr = System.Text.Encoding.UTF8.GetBytes("BAGFJSABC");
 
 			Transport trans = new Transport (1000, "FILE_CLIENT");
-			trans.send (barr, 1000);
+			trans.send (barr, barr.Length);
 
-			Console.WriteLine (barr.ToString);
+			Console.WriteLine (barr.ToString());
 		}
 			
 

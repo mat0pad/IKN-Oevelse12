@@ -25,19 +25,6 @@ namespace tcp
     		return (fileName.LastIndexOf('/')==0 ? fileName : fileName.Substring(fileName.LastIndexOf('/')+1));
     	}
 
-		/// <summary>
-		/// Gets the file size from the server.
-		/// </summary>
-		/// <returns>
-		/// The filesize as a long.
-		/// </returns>
-		/// <param name='inFromServer'>
-		/// Network stream for reading from the server.
-		/// </param>
-	    public static long getFileSizeTCP(NetworkStream inFromServer)
-	    {
-	    	return long.Parse(readTextTCP(inFromServer));
-	    }
 
 		/// <summary>
 		/// Check_s the file_ exists.
