@@ -108,7 +108,7 @@ namespace Linklaget
 				
 			buffer [counter] = DELIMITERA;
 
-			Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer).Substring(4));
+			//Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer).Substring(4));
 
 			byte[] test = new byte[4];
 			test [0] = buffer [0];
@@ -124,7 +124,7 @@ namespace Linklaget
 
 		public static string BytesToString(byte[] byteArray)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder("Header cotains { ");
+			System.Text.StringBuilder sb = new System.Text.StringBuilder("{ ");
 			for(var i = 0; i < byteArray.Length;i++)
 			{
 				var b = byteArray[i];

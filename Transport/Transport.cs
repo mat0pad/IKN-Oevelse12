@@ -179,7 +179,8 @@ namespace Transportlaget
 				} else {
 					
 					// Ack for resend
-					sendAck (Boolean.Parse(TransType.ACK.ToString()));
+					//sendAck(Boolean.Parse(TransType.ACK.ToString()));
+					sendAck(true);
 				}
 			}
 

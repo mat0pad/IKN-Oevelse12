@@ -56,8 +56,17 @@ namespace tcp
 					trans.receive(ref receiver);
 					size = 1;
 
+
 				} while(size == 0); //Check if file exist 
 
+
+				byte[] barr = new byte[1000];
+
+				barr = System.Text.Encoding.UTF8.GetBytes("TEST");
+
+				Console.WriteLine ("Answering request:\n" + Link.BytesToString(barr));
+
+				trans.send (barr, barr.Length);
 
 				Console.WriteLine (System.Text.Encoding.UTF8.GetString (receiver));
 
