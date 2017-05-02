@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using Transportlaget;
-
+using Linklaget;
 
 namespace client
 {
@@ -17,14 +17,19 @@ namespace client
 			string File_Name;
 
 
-			byte[] barr = new byte[100];
+			byte[] barr = new byte[1000];
 
-			barr = System.Text.Encoding.UTF8.GetBytes("BAGFJSABC");
+			barr = System.Text.Encoding.UTF8.GetBytes("CLIENT");
+
+			Console.WriteLine ("Request is:\n" + Link.BytesToString(barr));
 
 			Transport trans = new Transport (1000, "FILE_CLIENT");
 			trans.send (barr, barr.Length);
 
-			Console.WriteLine (barr.ToString());
+			trans.receive (ref barr);
+
+			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));
+
 		}
 			
 

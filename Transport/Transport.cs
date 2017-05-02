@@ -173,14 +173,26 @@ namespace Transportlaget
 					old_seqNo = seqNo;
 
 					// Send ack
-					sendAck (Boolean.Parse(TransType.ACK.ToString()));
+					sendAck (true);
 
 					break;
 				} else {
 					
 					// Ack for resend
-					sendAck (Boolean.Parse(TransType.ACK.ToString()));
+					sendAck (true);
 				}
+
+				// TODO: Remove
+
+				byte[] test = new byte[4];
+				test [0] = buffer [0];
+				test [1] = buffer [1];
+				test [2] = buffer [2];
+				test [3] = buffer [3];
+
+				Link.BytesToString (test);
+
+				break;
 			}
 
 

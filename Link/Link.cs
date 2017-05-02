@@ -124,7 +124,7 @@ namespace Linklaget
 
 		public static string BytesToString(byte[] byteArray)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder("Header cotains { ");
+			System.Text.StringBuilder sb = new System.Text.StringBuilder("{ ");
 			for(var i = 0; i < byteArray.Length;i++)
 			{
 				var b = byteArray[i];
@@ -149,7 +149,12 @@ namespace Linklaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-			var numOfBytes = serialPort.BytesToRead;
+			int numOfBytes;
+
+			do {
+				numOfBytes = serialPort.BytesToRead;
+			} while (numOfBytes == 0);
+
 
 			var tempBuf = new byte[BUFFER_SIZE];
 			var returnBuf = new byte[BUFFER_SIZE];
