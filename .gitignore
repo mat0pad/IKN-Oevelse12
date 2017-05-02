@@ -23,6 +23,8 @@
 *[Ll]og/
 bin/Debug/
 obj/Debug/
+bin
+obj
 
 
 # Visual Studio 2015 cache/options directory
