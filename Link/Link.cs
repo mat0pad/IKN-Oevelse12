@@ -117,7 +117,7 @@ namespace Linklaget
 			test [3] = buffer [3];
 
 
-			Console.WriteLine (BytesToString(test));
+			Console.WriteLine ("Link send:\n" + BytesToString(test));
 			serialPort.Write(buffer.ToString());
 
 		}

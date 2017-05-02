@@ -59,6 +59,7 @@ namespace tcp
 
 				} while(size == 0); //Check if file exist 
 
+				//Console.WriteLine (Link.BytesToString(receiver));
 
 				byte[] barr = new byte[1000];
 
@@ -67,8 +68,6 @@ namespace tcp
 				Console.WriteLine ("Answering request:\n" + Link.BytesToString(barr));
 
 				trans.send (barr, barr.Length);
-
-				Console.WriteLine (System.Text.Encoding.UTF8.GetString (receiver));
 
 				Console.WriteLine (" >> Connection closed with THIS client");
 				break;

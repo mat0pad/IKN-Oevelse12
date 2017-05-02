@@ -179,12 +179,7 @@ namespace Transportlaget
 				} else {
 					
 					// Ack for resend
-<<<<<<< HEAD
-					//sendAck(Boolean.Parse(TransType.ACK.ToString()));
 					sendAck(true);
-=======
-					sendAck (true);
->>>>>>> b7d2b83eaaff262c021b7fc16df5d9aadcb00ad0
 				}
 
 				// TODO: Remove
@@ -195,7 +190,7 @@ namespace Transportlaget
 				test [2] = buffer [2];
 				test [3] = buffer [3];
 
-				Link.BytesToString (test);
+				Console.WriteLine("Header receiving transport:\n" + Link.BytesToString (test));
 
 				break;
 			}
