@@ -21,14 +21,17 @@ namespace client
 
 			barr = System.Text.Encoding.UTF8.GetBytes("CLIENT");
 
-			Console.WriteLine ("Request is:\n" + Link.BytesToString(barr));
+			Console.WriteLine ("Sending data:\n" + Link.BytesToString(barr));
 
 			Transport trans = new Transport (1000, "FILE_CLIENT");
+
+			Console.WriteLine ("Sending data app:");
 			trans.send (barr, barr.Length);
 
+			/*Console.WriteLine ("Receiving data app:");
 			trans.receive (ref barr);
 
-			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));
+			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));*/
 
 		}
 			
