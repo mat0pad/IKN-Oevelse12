@@ -149,7 +149,12 @@ namespace Linklaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-			var numOfBytes = serialPort.BytesToRead;
+			int numOfBytes;
+
+			do {
+				numOfBytes = serialPort.BytesToRead;
+			} while (numOfBytes == 0);
+
 
 			var tempBuf = new byte[BUFFER_SIZE];
 			var returnBuf = new byte[BUFFER_SIZE];
