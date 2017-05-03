@@ -125,7 +125,7 @@ namespace Transportlaget
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
 				// Copy to buffer
-				Array.Copy (buf, 0, buffer, 4, size);
+				Array.Copy (buf, 0, buffer, 5, size);
 
 				// Set type
 				buffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;

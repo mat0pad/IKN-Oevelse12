@@ -19,7 +19,7 @@ namespace client
 
 			byte[] barr = new byte[1000];
 
-			barr = System.Text.Encoding.UTF8.GetBytes("CLIENT");
+			barr = System.Text.Encoding.UTF8.GetBytes("/Desktop/image.jpg");
 
 			Console.WriteLine ("Sending data:\n" + Link.BytesToString(barr));
 
@@ -27,10 +27,10 @@ namespace client
 
 			trans.send (barr, barr.Length);
 
-			/*Console.WriteLine ("Receiving data app:");
+			Console.WriteLine ("\nReceiving data app:");
 			trans.receive (ref barr);
 
-			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));*/
+			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));
 
 		}
 			

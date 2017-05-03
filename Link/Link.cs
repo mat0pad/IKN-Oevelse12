@@ -81,11 +81,11 @@ namespace Linklaget
 			Array.Copy(buf,0,sendBuf,0,size);
 
 			var counter = 5;
-			buffer [4] = DELIMITERA;
 
+			sendBuf [4] = DELIMITERA;
 
-			for (int i = 4; i < size; i++) {
-			
+			for (int i = 5 ; i < size; i++) {
+
 				if (buf [i].Equals (DELIMITERA)) {
 
 					sendBuf[counter] = DELIMITERB;
@@ -114,7 +114,6 @@ namespace Linklaget
 			test [2] = sendBuf [2];
 			test [3] = sendBuf [3];
 
-		
 			Console.WriteLine ("Link send:\n" +BytesToString(sendBuf));
 
 			serialPort.Write(System.Text.Encoding.UTF8.GetString(sendBuf));
