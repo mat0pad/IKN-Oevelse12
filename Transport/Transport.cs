@@ -156,7 +156,6 @@ namespace Transportlaget
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
-
 		}
 
 		/// <summary>
