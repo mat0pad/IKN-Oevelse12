@@ -85,7 +85,7 @@ namespace Linklaget
 			buffer [4] = DELIMITERA;
 
 
-			for (int i = 5 ; i < size; i++) {
+			for (int i = 0 ; i < size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
@@ -117,14 +117,8 @@ namespace Linklaget
 			test [3] = buffer [3];
 
 
-<<<<<<< HEAD
 			Console.WriteLine ("Link send:\n" +BytesToString(test));
 			serialPort.Write(System.Text.Encoding.UTF8.GetString(buffer));
-=======
-			Console.WriteLine ("Link send header:\n" + BytesToString(test));
-
-			serialPort.Write(buffer.ToString());
->>>>>>> 04e9982a5ed66a28dc3f132691ba539cacfcb60d
 
 		}
 
