@@ -206,7 +206,7 @@ namespace Transportlaget
 			}
 
 
-			Array.Copy (buffer, 4, buf, 0, buf.Length);
+			Array.Copy (buffer, 4, buf, 0, buffer.Length);
 			//buf = buffer.
 
 			return recvSize-4;

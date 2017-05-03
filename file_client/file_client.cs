@@ -13,13 +13,9 @@ namespace client
 
 		private file_client (string[] args)
 		{
-
 			string File_Name;
 
-
-			byte[] barr = new byte[1000];
-
-			barr = System.Text.Encoding.UTF8.GetBytes("/Desktop/image.jpg");
+			var barr = System.Text.Encoding.UTF8.GetBytes("/Desktop/image.jpg");
 
 			Console.WriteLine ("Sending data:\n" + Link.BytesToString(barr));
 
@@ -28,10 +24,12 @@ namespace client
 			trans.send (barr, barr.Length);
 
 			Console.WriteLine ("\nReceiving data app:");
-			trans.receive (ref barr);
 
-			Console.WriteLine ("Response:\n" + Link.BytesToString(barr));
+			var files2Receive = new byte[1000];
 
+			trans.receive (ref files2Receive);
+
+			Console.WriteLine ("Response:\n" + Link.BytesToString(files2Receive));
 		}
 			
 
