@@ -190,7 +190,9 @@ namespace Transportlaget
 				test [2] = buffer [2];
 				test [3] = buffer [3];
 
-				Console.WriteLine("Header receiving transport:\n" + Link.BytesToString (test));
+
+				Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
+
 
 				break;
 			}

@@ -108,7 +108,7 @@ namespace Linklaget
 				
 			buffer [counter] = DELIMITERA;
 
-			//Console.WriteLine (System.Text.Encoding.UTF8.GetString(buffer).Substring(4));
+			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buffer).Substring(4));
 
 			byte[] test = new byte[4];
 			test [0] = buffer [0];
@@ -117,8 +117,14 @@ namespace Linklaget
 			test [3] = buffer [3];
 
 
+<<<<<<< HEAD
 			Console.WriteLine ("Link send:\n" +BytesToString(test));
 			serialPort.Write(System.Text.Encoding.UTF8.GetString(buffer));
+=======
+			Console.WriteLine ("Link send header:\n" + BytesToString(test));
+
+			serialPort.Write(buffer.ToString());
+>>>>>>> 04e9982a5ed66a28dc3f132691ba539cacfcb60d
 
 		}
 
