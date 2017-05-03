@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="file_client/file_client.csproj">
+﻿<Properties StartupItem="file_server/file_server.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Link/Link.cs">
     <Files>

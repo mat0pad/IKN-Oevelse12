@@ -83,10 +83,13 @@ namespace Linklaget
 			Array.Copy(buf,0,sendBuf,0,size);
 
 			var counter = 5;
+
+			if (size != 0) {
+
 			buffer [4] = DELIMITERA;
 
 
-			for (int i = 4 ; i < size; i++) {
+			for (int i = 4; i < size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
@@ -106,8 +109,10 @@ namespace Linklaget
 					counter++;
 				}
 			}
-				
+
 			sendBuf [counter] = DELIMITERA;
+
+			}
 
 			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(sendBuf).Substring(4));
 
@@ -158,8 +163,8 @@ namespace Linklaget
 			} while (numOfBytes == 0);
 
 
-			var tempBuf = new byte[BUFFER_SIZE*2];
-			var returnBuf = new byte[BUFFER_SIZE];
+			var tempBuf = new byte[numOfBytes*2];
+			var returnBuf = new byte[numOfBytes];
 
 			if (numOfBytes > BUFFER_SIZE*2) {
 				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
@@ -176,8 +181,9 @@ namespace Linklaget
 
 			var counter = 4; 
 
-			// i = 1 to remove A start
-			for (int i = 5; i < numOfBytes; i++) {
+			// i = 5 to remove A start
+			int i;
+			for (i = 5; tempBuf[i] != DELIMITERA; i++) {
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 
