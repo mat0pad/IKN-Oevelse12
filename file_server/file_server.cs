@@ -59,15 +59,15 @@ namespace tcp
 
 				} while(size == 0); //Check if file exist 
 
-				//Console.WriteLine (Link.BytesToString(receiver));
+				Console.WriteLine ("String received:\n" + System.Text.Encoding.UTF8.GetString(receiver));
 
-				byte[] barr = new byte[1000];
+				/*byte[] barr = new byte[1000];
 
 				barr = System.Text.Encoding.UTF8.GetBytes("TEST");
 
 				Console.WriteLine ("Answering request:\n" + Link.BytesToString(barr));
 
-				trans.send (barr, barr.Length);
+				//trans.send (barr, barr.Length);*/
 
 				Console.WriteLine (" >> Connection closed with THIS client");
 				break;

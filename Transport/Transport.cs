@@ -136,6 +136,15 @@ namespace Transportlaget
 				// Calculate sum and low & high to index 0,1 ...
 				checksum.calcChecksum (ref buffer, newSize);
 
+				// TODO: Remove
+				byte[] test = new byte[4];
+				test [0] = buffer [0];
+				test [1] = buffer [1];
+				test [2] = buffer [2];
+				test [3] = buffer [3];
+
+				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (test));
+
 				// Send it through link layer
 				link.send (buffer, newSize);
 
