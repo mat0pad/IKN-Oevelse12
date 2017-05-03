@@ -79,13 +79,13 @@ namespace Linklaget
 				throw new System.ArgumentException(@"Parameter cannot be larger than set buffersize of {BUFFER_SIZE}, was {size}", "size");
 			
 
-			Array.Copy(buf,0,buffer,5,size);
+			Array.Copy(buf,0,buffer,0,size);
 
 			var counter = 5;
 			buffer [4] = DELIMITERA;
 
 
-			for (int i = 5 ; i < size; i++) {
+			for (int i = 4 ; i < size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
@@ -116,7 +116,8 @@ namespace Linklaget
 			test [2] = buffer [2];
 			test [3] = buffer [3];
 
-			Console.WriteLine ("Link send:\n" +BytesToString(test));
+			//Console.WriteLine ("Link send:\n" +BytesToString(test));
+			Console.WriteLine ("Link send:\n" +BytesToString(buffer));
 			serialPort.Write(System.Text.Encoding.UTF8.GetString(buffer));
 
 		}
