@@ -86,7 +86,7 @@ namespace Linklaget
 
 			sendBuf [4] = DELIMITERA;
 
-			for (int i = 5 ; i < size; i++) {
+			for (int i = 5 ; i <= size; i++) {
 			
 				if (buf [i].Equals (DELIMITERA)) {
 
@@ -109,16 +109,20 @@ namespace Linklaget
 				
 			sendBuf [counter] = DELIMITERA;
 
-			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(sendBuf).Substring(4));
+			byte[] buf2Send = new byte[counter+1];
+
+			Array.Copy (sendBuf,0, buf2Send, 0, counter+1);
+
+			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
 			byte[] test = new byte[4];
-			test [0] = sendBuf [0];
-			test [1] = sendBuf [1];
-			test [2] = sendBuf [2];
-			test [3] = sendBuf [3];
+			test [0] = buf2Send [0];
+			test [1] = buf2Send [1];
+			test [2] = buf2Send [2];
+			test [3] = buf2Send [3];
 
 			//Console.WriteLine ("Link send:\n" +BytesToString(test));
-			Console.WriteLine ("Link send:\n" + BytesToString(sendBuf));
+			Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
 
 			serialPort.Write(System.Text.Encoding.UTF8.GetString(sendBuf));
 
@@ -201,6 +205,10 @@ namespace Linklaget
 					}
 				}
 			}
+
+			byte[] buf2Receive = new byte[counter+1];
+
+			Array.Copy (returnBuf,0, buf2Receive, 0, counter+1); 
 
 			byte[] test = new byte[4];
 			test [0] = returnBuf [0];
