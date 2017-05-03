@@ -33,7 +33,7 @@ namespace tcp
 		private file_server ()
 		{
 			
-			var size  = 0;
+			long size  = 0;
 			Console.WriteLine (" >> Server Started");
 			//Link link = new Link (1000,"FILE_SERVER");
 
@@ -50,24 +50,23 @@ namespace tcp
 				do {
 
 					//reads filename from client
-					//size = LIB.check_File_Exists (fileName); //checks if file exist
-					//Send size to client
-
 					trans.receive(ref receiver);
+
+					Console.WriteLine ("Filname received:\n" + System.Text.Encoding.UTF8.GetString(receiver));
+
+					size = LIB.check_File_Exists (fileName); //checks if file exist
+
+					//Send size to client
+					Console.WriteLine ("\nSending size:");
+
+					var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
+
+					trans.send (sizeInBytes, sizeInBytes.Length);
+
 					size = 1;
 
-
 				} while(size == 0); //Check if file exist 
-
-				Console.WriteLine ("String received:\n" + System.Text.Encoding.UTF8.GetString(receiver));
-
-				/*byte[] barr = new byte[1000];
-
-				barr = System.Text.Encoding.UTF8.GetBytes("TEST");
-
-				Console.WriteLine ("Answering request:\n" + Link.BytesToString(barr));
-
-				//trans.send (barr, barr.Length);*/
+					
 
 				Console.WriteLine (" >> Connection closed with THIS client");
 				break;
