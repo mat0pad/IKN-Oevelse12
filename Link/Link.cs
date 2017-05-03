@@ -119,7 +119,7 @@ namespace Linklaget
 
 			Console.WriteLine ("Link send header:\n" + BytesToString(test));
 
-			serialPort.Write(buffer.ToString());
+			serialPort.Write(System.Text.Encoding.UTF8.GetString(buffer));
 
 		}
 

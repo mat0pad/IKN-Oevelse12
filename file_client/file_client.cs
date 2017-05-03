@@ -25,7 +25,6 @@ namespace client
 
 			Transport trans = new Transport (1000, "FILE_CLIENT");
 
-			Console.WriteLine ("Sending data app:");
 			trans.send (barr, barr.Length);
 
 			/*Console.WriteLine ("Receiving data app:");
