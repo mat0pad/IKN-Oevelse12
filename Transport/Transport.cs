@@ -149,13 +149,13 @@ namespace Transportlaget
 
 				// Send it through link layer
 				link.send (temparray, newSize);
-				/*
+
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
 					link.send (buffer, newSize);
 				}
-				*/
+
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
@@ -184,17 +184,16 @@ namespace Transportlaget
 					old_seqNo = seqNo;
 
 					// Send ack
-				//	sendAck (true);
+					sendAck (true);
 
 					break;
 				} else {
 					
 					// Ack for resend
-				//	sendAck(true);
+					sendAck(true);
 				}
 
 				// TODO: Remove
-
 				byte[] test = new byte[4];
 				test [0] = buffer [0];
 				test [1] = buffer [1];
