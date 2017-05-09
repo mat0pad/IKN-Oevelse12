@@ -153,7 +153,8 @@ namespace Transportlaget
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
-					link.send (buffer, newSize);
+					Console.WriteLine("Server requested resend of data due to bit errors");
+					link.send (temparray, newSize);
 				}
 
 			}
@@ -199,10 +200,9 @@ namespace Transportlaget
 				} else {
 					Console.WriteLine ("Resend ack: " + seqNo);
 					// Ack for resend
-					sendAck(true);
+					sendAck(false);
 				}
-
-				// TODO: Remove
+					
 			}
 
 

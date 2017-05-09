@@ -126,7 +126,7 @@ namespace Linklaget
 
 
 			// Kommenter ud for server, se kommentar til errorCount defineret øverst
-			if(++errorCount == 1) // Simulate noise in DATA-package
+			if(++errorCount < 10) // Simulate noise in DATA-package
 
 			{
 
