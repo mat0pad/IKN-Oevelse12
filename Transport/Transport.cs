@@ -184,13 +184,13 @@ namespace Transportlaget
 					old_seqNo = seqNo;
 
 					// Send ack
-					sendAck (true);
+				//	sendAck (true);
 
 					break;
 				} else {
 					
 					// Ack for resend
-					sendAck(true);
+				//	sendAck(true);
 				}
 
 				// TODO: Remove
@@ -209,7 +209,7 @@ namespace Transportlaget
 			}
 
 
-			Array.Copy (buffer, 4, buf, 0, buffer.Length);
+			Array.Copy (buffer, 4, buf, 0, buffer.Length-4);
 			//buf = buffer.
 
 			return recvSize-4;
