@@ -197,12 +197,10 @@ namespace Transportlaget
 
 					break;
 				} else {
-					Console.WriteLine ("Resend ack: " + seqNo);
+					Console.WriteLine ("Requesting resend...");
 					// Ack for resend
-					sendAck(true);
+					sendAck(false);
 				}
-
-				// TODO: Remove
 			}
 
 
