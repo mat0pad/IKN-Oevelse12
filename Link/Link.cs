@@ -28,6 +28,8 @@ namespace Linklaget
 
 		private int BUFFER_SIZE;
 
+
+
 		/// <summary>
 		/// The serial port.
 		/// </summary>
@@ -118,15 +120,10 @@ namespace Linklaget
 			test [2] = buf2Send [2];
 			test [3] = buf2Send [3];
 
+			Console.WriteLine ("Link send:\n" + BytesToString (buf2Send));
 
-			Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
-
-			Console.WriteLine("ASDAS " + System.Text.Encoding.UTF8.GetString (test));
-
-			//Console.WriteLine("asdsad " + BytesToString(test[0]));
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
-				//serialPort.Write (sb.ToString ());  //System.Text.Encoding.UTF8.GetString(buf2Send));
 
 		}
 
@@ -208,11 +205,11 @@ namespace Linklaget
 
 			Array.Copy (returnBuf,0, buf2Receive, 0, counter); 
 
-			byte[] test = new byte[4];
+			/*byte[] test = new byte[4];
 			test [0] = returnBuf [0];
 			test [1] = returnBuf [1];
 			test [2] = returnBuf [2];
-			test [3] = returnBuf [3];
+			test [3] = returnBuf [3];*/
 
 
 			Console.WriteLine ("Link receive:\n" + BytesToString (buf2Receive));

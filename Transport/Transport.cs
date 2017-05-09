@@ -124,7 +124,8 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
-				Byte[] temparray = new byte[newSize];
+				//Byte[] temparray = new byte[newSize];
+				Byte[] temparray = buffer;
 
 				// Copy to buffer
 				Array.Copy (buf, 0, temparray, 4, size);
@@ -149,13 +150,13 @@ namespace Transportlaget
 
 				// Send it through link layer
 				link.send (temparray, newSize);
-				/*
+
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
 					link.send (buffer, newSize);
 				}
-				*/
+
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
@@ -174,38 +175,35 @@ namespace Transportlaget
 				// Receive size
 				recvSize = link.receive (ref buffer);
 
-				seqNo = buffer[(int)TransCHKSUM.SEQNO];
-
-
-				// Send Ack
-				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
-
-					// Set seq
-					old_seqNo = seqNo;
-
-					// Send ack
-				//	sendAck (true);
-
-					break;
-				} else {
-					
-					// Ack for resend
-				//	sendAck(true);
-				}
-
-				// TODO: Remove
-
 				byte[] test = new byte[4];
 				test [0] = buffer [0];
 				test [1] = buffer [1];
 				test [2] = buffer [2];
 				test [3] = buffer [3];
 
+				Console.WriteLine("Transport received header:\n" + Link.BytesToString (test));
 
-				Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
+				seqNo = buffer[(int)TransCHKSUM.SEQNO];
 
 
-				break;
+				// Send Ack
+				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
+
+					Console.WriteLine ("Ack: " + seqNo);
+					// Set seq
+					old_seqNo = seqNo;
+
+					// Send ack
+					sendAck (true);
+
+					break;
+				} else {
+					Console.WriteLine ("Resend ack: " + seqNo);
+					// Ack for resend
+					sendAck(true);
+				}
+
+				// TODO: Remove
 			}
 
 
