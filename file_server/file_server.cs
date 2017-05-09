@@ -61,7 +61,7 @@ namespace tcp
 
 					var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
 
-					trans.send (sizeInBytes, sizeInBytes.Length);
+					//trans.send (sizeInBytes, sizeInBytes.Length);
 
 					size = 1;
 
