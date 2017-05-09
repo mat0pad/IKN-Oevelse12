@@ -124,35 +124,38 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
+				Byte[] temparray = new byte[newSize];
+
 				// Copy to buffer
-				Array.Copy (buf, 0, buffer, 5, size);
+				Array.Copy (buf, 0, temparray, 4, size);
 
 				// Set type
-				buffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
+				temparray[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
 
 				// Set seqno
-				buffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
+				temparray[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
 
 				// Calculate sum and low & high to index 0,1 ...
-				checksum.calcChecksum (ref buffer, newSize);
+				checksum.calcChecksum (ref temparray, newSize);
 
 				// TODO: Remove
 				byte[] test = new byte[4];
-				test [0] = buffer [0];
-				test [1] = buffer [1];
-				test [2] = buffer [2];
-				test [3] = buffer [3];
+				test [0] = temparray [0];
+				test [1] = temparray[1];
+				test [2] = temparray[2];
+				test [3] = temparray[3];
 
 				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (test));
 
 				// Send it through link layer
-				link.send (buffer, newSize);
-
+				link.send (temparray, newSize);
+				/*
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
 					link.send (buffer, newSize);
 				}
+				*/
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
