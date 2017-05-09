@@ -79,10 +79,10 @@ namespace tcp
 		}
 
 
-		private int sendFileSize(Transport trans,string fileName)
+		private long sendFileSize(Transport trans,string fileName)
 		{
 			//checks if file exist
-			int size = LIB.check_File_Exists (fileName); 
+			long size = LIB.check_File_Exists (fileName); 
 
 			//Send size to client
 			Console.WriteLine ("\nSending size:");
