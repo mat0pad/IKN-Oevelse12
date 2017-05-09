@@ -28,7 +28,8 @@ namespace Linklaget
 
 		private int BUFFER_SIZE;
 
-
+		private int errorCount = 0; // SKAL KUN BRUGES I DEN ENE ENDE, ret også nederst i send metoden, 
+					    //ellers vil der være simuleret bit fejl både når server og klient sender, klient alene er nok i første omgang
 
 		/// <summary>
 		/// The serial port.
@@ -114,14 +115,27 @@ namespace Linklaget
 
 			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
-			byte[] test = new byte[4];
+			/*byte[] test = new byte[4];
 			test [0] = buf2Send [0];
 			test [1] = buf2Send [1];
 			test [2] = buf2Send [2];
-			test [3] = buf2Send [3];
+			test [3] = buf2Send [3];*/
 
 			Console.WriteLine ("Link send:\n" + BytesToString (buf2Send));
 
+
+
+			// Kommenter ud for server, se kommentar til errorCount defineret øverst
+			if(++errorCount == 1) // Simulate noise in DATA-package
+
+			{
+
+				buf2Send[1]++; // Important: Only spoil a checksum-field (buffer[0] or buffer[1])
+				Console.WriteLine("Noise! - byte #1 is spoiled in the first transmission:");
+				Console.WriteLine (BytesToString (buf2Send));
+
+
+			} 
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
 

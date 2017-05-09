@@ -124,7 +124,10 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
+<<<<<<< HEAD
 				//Byte[] temparray = new byte[newSize];
+=======
+>>>>>>> 43a910acbaa6cd03fab451a2ba13e67b7663e15c
 				Byte[] temparray = buffer;
 
 				// Copy to buffer
@@ -204,6 +207,20 @@ namespace Transportlaget
 				}
 
 				// TODO: Remove
+<<<<<<< HEAD
+=======
+				byte[] test = new byte[4];
+				test [0] = buffer [0];
+				test [1] = buffer [1];
+				test [2] = buffer [2];
+				test [3] = buffer [3];
+
+
+				Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
+
+
+				break;
+>>>>>>> 43a910acbaa6cd03fab451a2ba13e67b7663e15c
 			}
 
 
