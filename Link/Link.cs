@@ -126,16 +126,14 @@ namespace Linklaget
 
 
 			// Kommenter ud for server, se kommentar til errorCount defineret øverst
-			if(++errorCount < 10) // Simulate noise in DATA-package
+			//if(++errorCount == 1) // Simulate noise in DATA-package
 
-			{
+			/*{
 
 				buf2Send[1]++; // Important: Only spoil a checksum-field (buffer[0] or buffer[1])
 				Console.WriteLine("Noise! - byte #1 is spoiled in the first transmission:");
 				Console.WriteLine (BytesToString (buf2Send));
-
-
-			} 
+			} */
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
 
