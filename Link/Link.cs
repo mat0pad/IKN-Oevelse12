@@ -174,7 +174,7 @@ namespace Linklaget
 			var counter = 4; 
 
 			// i = 5 to remove A start
-			for (int i = 5; i < numOfBytes; /*&& i < BUFFER_SIZE;*/ i++) {
+			for (int i = 5; i < numOfBytes; i++) {
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 

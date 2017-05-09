@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using Transportlaget;
 using Linklaget;
+using tcp;
 
 namespace client
 {
@@ -11,34 +12,101 @@ namespace client
 	{
 		const int BUFSIZE = 1000;
 
+		Transport trans;
+
 		private file_client (string[] args)
 		{
-			string File_Name;
+			string fileName = "";
 
-			var barr = System.Text.Encoding.UTF8.GetBytes("/Desktop/image.jpg");
+			trans = new Transport (1000, "FILE_CLIENT");
 
-			Console.WriteLine ("Sending data:\n" + Link.BytesToString(barr));
+			long size = 0;
 
-			Transport trans = new Transport (1000, "FILE_CLIENT");
+			while (size == 0) { //iteration until file 
 
-			Console.WriteLine ("LENGTH " + barr.Length);
+				if(args.Length != 1)
+					fileName = SendRequestFromInput();
+				else
+					fileName = SendRequestFromArg(args[1]);
 
-			trans.send (barr, barr.Length);
+				size = readSize ();
 
-			Console.WriteLine ("\nReceiving data app:");
+				if (size == 0)
+					Console.WriteLine ("File dosn't exist, try again");
+			}
 
-			var files2Receive = new byte[1000];
 
-		//	trans.receive (ref files2Receive);
+			receiveFile (fileName, size);
 
-		   //Console.WriteLine ("Response:\n" + Link.BytesToString(files2Receive));
 		}
 			
-
-		private void receiveFile (String fileName, NetworkStream io)
+		private string SendRequestFromInput ()
 		{
-			// Receive file
+			Console.WriteLine ("Write the name of the file:");
+			string request = Console.ReadLine ();
+
+			var bytes2Send = System.Text.Encoding.UTF8.GetBytes(request);
+			trans.send(bytes2Send, bytes2Send.Length);
+
+			return request;
 		}
+
+		private string SendRequestFromArg (string request)
+		{
+			var bytes2Send = System.Text.Encoding.UTF8.GetBytes(request);
+			trans.send(bytes2Send, bytes2Send.Length);
+			return request;
+		}
+
+
+		private long readSize ()
+		{
+			var tempBuf = new byte[BUFSIZE];
+
+			int length = trans.receive (ref tempBuf);
+
+			long value = 0;
+			for (int i = 0; i < length; i++)
+			{
+				value += ((long) tempBuf[i] & 0xffL) << (8 * i);
+			}
+
+			var size = value;//(tempBuf, 0);
+
+			Console.WriteLine ("Size is: {0} bytes", size);
+
+			return size;
+		}
+
+		private void receiveFile (String fileName, long size)
+		{
+			// Commence download
+			Console.WriteLine("Downloading...");
+
+			byte[] inStream = new byte[BUFSIZE];
+			long totalReceived = 0;
+
+			// Setup FileStream which writes to desktop
+			string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/" + LIB.extractFileName(fileName);
+			FileStream fs = new FileStream (path, FileMode.Create);
+
+			// Download file chunk by chunk and write it to FileStream path
+			do
+			{
+				int count = trans.receive(ref inStream);
+
+				fs.Write(inStream, 0, count);
+				totalReceived += count;
+
+				string diff = totalReceived + "/" + size;
+
+				Console.Write("\r{0}%   " + diff + " bytes", String.Format("{0:0}", 100*totalReceived/size));
+			}
+			while (totalReceived != size);
+
+			Console.WriteLine ("\nDownload complete");
+		}
+			
 
 		public static void Main (string[] args)
 		{
