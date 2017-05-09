@@ -194,7 +194,6 @@ namespace Transportlaget
 				}
 
 				// TODO: Remove
-
 				byte[] test = new byte[4];
 				test [0] = buffer [0];
 				test [1] = buffer [1];

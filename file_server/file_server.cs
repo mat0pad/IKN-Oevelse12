@@ -45,33 +45,83 @@ namespace tcp
 
 				size = 0;
 
-				byte[] receiver = new byte[BUFSIZE];
-
 				do {
 
-					//reads filename from client
-					trans.receive(ref receiver);
+					// Reads filename from client
+					fileName = receiveFilename(trans);
 
-					Console.WriteLine ("Filname received:\n" + System.Text.Encoding.UTF8.GetString(receiver));
-
-					size = LIB.check_File_Exists (fileName); //checks if file exist
-
-					//Send size to client
-					Console.WriteLine ("\nSending size:");
-
-					var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
-
-					//trans.send (sizeInBytes, sizeInBytes.Length);
-
-					size = 1;
+					// Send file size to client
+					size = sendFileSize(trans, fileName);
 
 				} while(size == 0); //Check if file exist 
 					
 
-				Console.WriteLine (" >> Connection closed with THIS client");
-				break;
-			}
+				// Send the actual file to client
+				sendFile (trans, fileName, size);
 
+				Console.WriteLine (" >> Connection closed with THIS client");
+				//break;
+			}
+		}
+
+		private string receiveFilename(Transport trans)
+		{
+			byte[] receiver = new byte[BUFSIZE];
+
+			//reads filename from client
+			trans.receive(ref receiver);
+
+			string name = System.Text.Encoding.UTF8.GetString (receiver);
+
+			Console.WriteLine ("Filname received:\n" + name);
+
+			return name;
+		}
+
+
+		private int sendFileSize(Transport trans,string fileName)
+		{
+			//checks if file exist
+			int size = LIB.check_File_Exists (fileName); 
+
+			//Send size to client
+			Console.WriteLine ("\nSending size:");
+
+			var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
+
+			trans.send (sizeInBytes, sizeInBytes.Length);
+
+			return size;
+		}
+
+		private void sendFile(Transport trans,string fileName, long size)
+		{
+			Console.WriteLine ("Sending file...");
+
+			// Saves file content on data 
+			byte[] data = File.ReadAllBytes (fileName); 
+
+			// Prepares package for send
+			byte[] package = new byte[size]; 
+
+			// Copies data to package
+			data.CopyTo (package,0); 
+
+			int bytesSent = 0;
+			int bytesLeft = (int)size;
+
+			while (bytesLeft > 0) { //keeps going until all bytes are send
+
+				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
+
+				// Send part of package with size nextpacketSize to client.
+				trans.send (package, nextPacketSize); 
+
+				bytesSent += nextPacketSize;
+				bytesLeft -= nextPacketSize;
+
+			}
+			Console.WriteLine ("File sended");
 		}
 
 		public static void Main (string[] args)
