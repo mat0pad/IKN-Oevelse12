@@ -21,15 +21,17 @@ namespace client
 
 			Transport trans = new Transport (1000, "FILE_CLIENT");
 
+			Console.WriteLine ("LENGTH " + barr.Length);
+
 			trans.send (barr, barr.Length);
 
 			Console.WriteLine ("\nReceiving data app:");
 
 			var files2Receive = new byte[1000];
 
-			trans.receive (ref files2Receive);
+		//	trans.receive (ref files2Receive);
 
-			Console.WriteLine ("Response:\n" + Link.BytesToString(files2Receive));
+		   //Console.WriteLine ("Response:\n" + Link.BytesToString(files2Receive));
 		}
 			
 
