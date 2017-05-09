@@ -124,7 +124,7 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
-				Byte[] temparray = new byte[newSize];
+				Byte[] temparray = buffer;
 
 				// Copy to buffer
 				Array.Copy (buf, 0, temparray, 4, size);
@@ -149,13 +149,13 @@ namespace Transportlaget
 
 				// Send it through link layer
 				link.send (temparray, newSize);
-				/*
+
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
 					link.send (buffer, newSize);
 				}
-				*/
+
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
@@ -184,13 +184,13 @@ namespace Transportlaget
 					old_seqNo = seqNo;
 
 					// Send ack
-				//	sendAck (true);
+					sendAck (true);
 
 					break;
 				} else {
 					
 					// Ack for resend
-				//	sendAck(true);
+					sendAck(true);
 				}
 
 				// TODO: Remove

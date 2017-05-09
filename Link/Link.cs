@@ -28,6 +28,8 @@ namespace Linklaget
 
 		private int BUFFER_SIZE;
 
+		private int errorCount = 0;
+
 		/// <summary>
 		/// The serial port.
 		/// </summary>
@@ -112,21 +114,29 @@ namespace Linklaget
 
 			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
-			byte[] test = new byte[4];
+			/*byte[] test = new byte[4];
 			test [0] = buf2Send [0];
 			test [1] = buf2Send [1];
 			test [2] = buf2Send [2];
-			test [3] = buf2Send [3];
+			test [3] = buf2Send [3];*/
 
 
 			Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
 
-			Console.WriteLine("ASDAS " + System.Text.Encoding.UTF8.GetString (test));
-
 			//Console.WriteLine("asdsad " + BytesToString(test[0]));
 
+			if(++errorCount == 1) // Simulate noise in DATA-package
+
+			{
+
+				buf2Send[1]++; // Important: Only spoil a checksum-field (buffer[0] or buffer[1])
+				Console.WriteLine("Noise! - byte #1 is spoiled in the first transmission:");
+				Console.WriteLine (BytesToString (buf2Send));
+
+
+			} 
+
 			serialPort.Write (buf2Send,0,buf2Send.Length);
-				//serialPort.Write (sb.ToString ());  //System.Text.Encoding.UTF8.GetString(buf2Send));
 
 		}
 
