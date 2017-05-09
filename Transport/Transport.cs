@@ -203,8 +203,6 @@ namespace Transportlaget
 
 				Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
 
-
-				break;
 			}
 
 

@@ -79,13 +79,14 @@ namespace tcp
 		}
 
 
-		private int sendFileSize(Transport trans,string fileName)
+		private long sendFileSize(Transport trans,string fileName)
 		{
+
 			//checks if file exist
-			int size = LIB.check_File_Exists (fileName); 
+			long size = LIB.check_File_Exists (fileName); 
 
 			//Send size to client
-			Console.WriteLine ("\nSending size:");
+			Console.WriteLine (" >> Size of file: " + size + " long");
 
 			var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
 
@@ -96,32 +97,32 @@ namespace tcp
 
 		private void sendFile(Transport trans,string fileName, long size)
 		{
-			Console.WriteLine ("Sending file...");
+			var fs = new FileStream (fileName, FileMode.Open);
 
-			// Saves file content on data 
-			byte[] data = File.ReadAllBytes (fileName); 
+			// Send file in chunks
+			Console.WriteLine (" >> Sending file...");
 
-			// Prepares package for send
-			byte[] package = new byte[size]; 
+			byte[] sendBytes = new byte[BUFSIZE];
+			int count;
 
-			// Copies data to package
-			data.CopyTo (package,0); 
-
-			int bytesSent = 0;
-			int bytesLeft = (int)size;
-
-			while (bytesLeft > 0) { //keeps going until all bytes are send
-
-				int nextPacketSize = (bytesLeft > BUFSIZE) ? BUFSIZE : bytesLeft;
-
-				// Send part of package with size nextpacketSize to client.
-				trans.send (package, nextPacketSize); 
-
-				bytesSent += nextPacketSize;
-				bytesLeft -= nextPacketSize;
-
+			while ((count = fs.Read (sendBytes, 0, BUFSIZE)) > 0) {
+				trans.send (sendBytes, count);
 			}
-			Console.WriteLine ("File sended");
+
+			Console.WriteLine (" >> Send complete");
+		}
+
+		public static byte[] TrimEnd(byte[] array)
+		{
+			byte[] newArray = new byte [array.Length];
+
+			Array.Copy(array,newArray, array.Length);
+
+			int lastIndex = Array.FindLastIndex(array, b => b != 0);
+
+			Array.Resize(ref newArray, lastIndex + 1);
+
+			return newArray;
 		}
 
 		public static void Main (string[] args)

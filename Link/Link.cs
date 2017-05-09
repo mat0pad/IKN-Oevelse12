@@ -121,13 +121,7 @@ namespace Linklaget
 
 			Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
 
-			Console.WriteLine("ASDAS " + System.Text.Encoding.UTF8.GetString (test));
-
-			//Console.WriteLine("asdsad " + BytesToString(test[0]));
-
 			serialPort.Write (buf2Send,0,buf2Send.Length);
-				//serialPort.Write (sb.ToString ());  //System.Text.Encoding.UTF8.GetString(buf2Send));
-
 		}
 
 		public static string BytesToString (byte[] byteArray)
