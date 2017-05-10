@@ -182,7 +182,7 @@ namespace Transportlaget
 					//old_seqNo = seqNo;
 
 					// Send ack
-					sendAck (true);
+					sendAck (false);
 					Console.WriteLine ("BREAK CALLED");
 					break;
 				} else {
