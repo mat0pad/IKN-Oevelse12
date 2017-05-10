@@ -71,8 +71,6 @@ namespace tcp
 			//reads filename from client
 			int size = trans.receive(ref receiver);
 
-		    byte[] bytename = new byte[size];
-
 			string name = System.Text.Encoding.UTF8.GetString (receiver);
 
 			Console.WriteLine ("Filname received:\n" + name);

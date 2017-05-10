@@ -71,7 +71,7 @@ namespace Transportlaget
 		/// <returns>
 		/// The ack.
 		/// </returns>
-		private bool receiveAck()
+		private bool receiveAck(ref byte[] buffer)
 		{
 			recvSize = link.receive(ref buffer);
 			dataReceived = true;
@@ -138,22 +138,17 @@ namespace Transportlaget
 				// Calculate sum and low & high to index 0,1 ...
 				checksum.calcChecksum (ref temparray, newSize);
 
-				// TODO: Remove
-				byte[] test = new byte[4];
-				test [0] = temparray [0];
-				test [1] = temparray[1];
-				test [2] = temparray[2];
-				test [3] = temparray[3];
 
-				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (temparray));
+				Console.WriteLine("Transport sending:\n" + Link.BytesToString (temparray));
 
 				// Send it through link layer
 				link.send (temparray, newSize);
 
 				// Receive ack or resend
-				while (!receiveAck ()) {
+				while (!receiveAck (ref temparray)) {
 					// Send it through link layer
 					Console.WriteLine("Server requested resend of data due to bit errors");
+
 					link.send (temparray, newSize);
 				}
 
