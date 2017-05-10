@@ -176,7 +176,6 @@ namespace Transportlaget
 
 				seqNo = buffer[(int)TransCHKSUM.SEQNO];
 
-
 				// Send Ack
 				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
 
@@ -185,19 +184,26 @@ namespace Transportlaget
 
 					// Send ack
 					sendAck (true);
-
+					Console.WriteLine ("BREAK CALLED");
 					break;
 				} else {
 					
 					// Ack for resend
 					sendAck(true);
 				}
+					
 
+<<<<<<< HEAD
 
 			//	Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
+=======
 
 			}
 
+>>>>>>> 3c54dec39cfee0b440245abc07e4cb08826a4fa9
+
+
+<<<<<<< HEAD
 			buf = new byte[buffer.Length - 4]; //updated buf with new size
 
 			Array.Copy (buffer, 4, buf, 0, buffer.Length-4); //copy data to buf
@@ -205,6 +211,16 @@ namespace Transportlaget
 			Console.WriteLine("Transport sending header:\n" + Link.BytesToString (buf));
 
 
+=======
+			//buf = buffer.
+
+			buf = new byte[buffer.Length - 4];
+
+			Array.Copy (buffer, 4, buf, 0, buffer.Length-4);
+
+			Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (buffer));
+
+>>>>>>> 3c54dec39cfee0b440245abc07e4cb08826a4fa9
 			return buf.Length;
 		}
 

@@ -114,6 +114,7 @@ namespace Linklaget
 
 			//Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
+
 			byte[] test = new byte[4];
 			test [0] = buf2Send [0];
 			test [1] = buf2Send [1];
@@ -122,6 +123,7 @@ namespace Linklaget
 
 
 			//Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
+
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
 		}
