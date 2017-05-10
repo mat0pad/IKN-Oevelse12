@@ -122,7 +122,8 @@ namespace Transportlaget
 				int newSize = size + 4;
 
 				// set seq to not old seq
-				seqNo = (byte)((old_seqNo + 1) % 2);
+				//seqNo = (byte)((old_seqNo + 1) % 2);
+				seqNo = (byte)((seqNo + 1) % 2);
 
 				Byte[] temparray = new byte[newSize];
 
@@ -173,12 +174,12 @@ namespace Transportlaget
 				seqNo = buffer [(int)TransCHKSUM.SEQNO];
 
 				// Send Ack
-				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
+				if (checksum.checkChecksum (buffer, recvSize) /*&& seqNo != old_seqNo*/) {
 
 					Console.WriteLine ("Ack: " + seqNo);
 
 					// Set seq
-					old_seqNo = seqNo;
+					//old_seqNo = seqNo;
 
 					// Send ack
 					sendAck (true);
