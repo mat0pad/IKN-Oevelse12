@@ -95,6 +95,7 @@ namespace client
 			{
 				int count = trans.receive(ref inStream);
 
+
 				fs.Write(inStream, 0, count);
 				totalReceived += count;
 
