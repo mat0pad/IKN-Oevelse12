@@ -174,7 +174,7 @@ namespace Transportlaget
 				// Receive size
 				recvSize = link.receive (ref buffer);
 
-				seqNo = buffer[(int)TransCHKSUM.SEQNO];
+				seqNo = buffer [(int)TransCHKSUM.SEQNO];
 
 				// Send Ack
 				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
@@ -189,9 +189,8 @@ namespace Transportlaget
 				} else {
 					
 					// Ack for resend
-					sendAck(true);
+					sendAck (true);
 				}
-					
 			}
 
 
