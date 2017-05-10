@@ -182,7 +182,7 @@ namespace Transportlaget
 					//old_seqNo = seqNo;
 
 					// Send ack
-					sendAck (false);
+					sendAck (true);
 					Console.WriteLine ("BREAK CALLED");
 					break;
 				} else {
@@ -190,7 +190,7 @@ namespace Transportlaget
 					Console.WriteLine ("Requesting resend...");
 
 					// Ack for resend
-					sendAck (true);
+					sendAck (false); // måske true
 				}
 			}
 
