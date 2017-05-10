@@ -69,11 +69,15 @@ namespace tcp
 			byte[] receiver = new byte[BUFSIZE];
 
 			//reads filename from client
-			trans.receive(ref receiver);
+			int size = trans.receive(ref receiver);
+
+		    byte[] bytename = new byte[size];
 
 			string name = System.Text.Encoding.UTF8.GetString (receiver);
 
 			Console.WriteLine ("Filname received:\n" + name);
+
+		
 
 			return name;
 		}
@@ -88,7 +92,9 @@ namespace tcp
 			//Send size to client
 			Console.WriteLine (" >> Size of file: " + size + " long");
 
-			var sizeInBytes = System.Text.Encoding.UTF8.GetBytes(size.ToString());
+			var sizeInBytes = BitConverter.GetBytes (size); // System.Text.Encoding.UTF8.GetBytes(size.ToString());
+
+			Console.WriteLine ("SIZE OF ARRAY "+sizeInBytes.Length);
 
 			trans.send (sizeInBytes, sizeInBytes.Length);
 

@@ -78,6 +78,8 @@ namespace Linklaget
 
 			byte[] sendBuf = new byte[size*2];
 
+		//	Console.WriteLine ("SIZE " + size.ToString());
+
 			Array.Copy(buf,0,sendBuf,0,size);
 
 			var counter = 5;
@@ -110,7 +112,7 @@ namespace Linklaget
 
 			Array.Copy (sendBuf,0, buf2Send, 0, counter+1);
 
-			Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
+			//Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
 			byte[] test = new byte[4];
 			test [0] = buf2Send [0];
@@ -119,7 +121,7 @@ namespace Linklaget
 			test [3] = buf2Send [3];
 
 
-			Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
+			//Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
 		}
@@ -202,14 +204,7 @@ namespace Linklaget
 
 			Array.Copy (returnBuf,0, buf2Receive, 0, counter); 
 
-			byte[] test = new byte[4];
-			test [0] = returnBuf [0];
-			test [1] = returnBuf [1];
-			test [2] = returnBuf [2];
-			test [3] = returnBuf [3];
-
-
-			Console.WriteLine ("Link receive:\n" + BytesToString (buf2Receive));
+			//Console.WriteLine ("Link receive:\n" + BytesToString (buf2Receive));
 	    	
 			buf = buf2Receive;
 

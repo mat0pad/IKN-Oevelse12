@@ -145,7 +145,7 @@ namespace Transportlaget
 				test [2] = temparray[2];
 				test [3] = temparray[3];
 
-				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (test));
+				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (temparray));
 
 				// Send it through link layer
 				link.send (temparray, newSize);
@@ -153,7 +153,7 @@ namespace Transportlaget
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
-					link.send (buffer, newSize);
+					link.send (temparray, newSize);
 				}
 
 			}
@@ -193,23 +193,19 @@ namespace Transportlaget
 					sendAck(true);
 				}
 
-				// TODO: Remove
-				byte[] test = new byte[4];
-				test [0] = buffer [0];
-				test [1] = buffer [1];
-				test [2] = buffer [2];
-				test [3] = buffer [3];
 
-
-				Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
+			//	Console.WriteLine("Transport receiving header:\n" + Link.BytesToString (test));
 
 			}
 
+			buf = new byte[buffer.Length - 4]; //updated buf with new size
 
-			Array.Copy (buffer, 4, buf, 0, buffer.Length-4);
-			//buf = buffer.
+			Array.Copy (buffer, 4, buf, 0, buffer.Length-4); //copy data to buf
 
-			return recvSize-4;
+			Console.WriteLine("Transport sending header:\n" + Link.BytesToString (buf));
+
+
+			return buf.Length;
 		}
 
 	}
