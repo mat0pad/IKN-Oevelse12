@@ -175,7 +175,7 @@ namespace Transportlaget
 				// Receive size
 				recvSize = link.receive (ref buffer);
 
-				seqNo = buffer[(int)TransCHKSUM.SEQNO];
+				seqNo = buffer [(int)TransCHKSUM.SEQNO];
 
 				// Send Ack
 				if (checksum.checkChecksum (buffer, recvSize) && seqNo != old_seqNo) {
@@ -194,9 +194,8 @@ namespace Transportlaget
 					Console.WriteLine ("Requesting resend...");
 
 					// Ack for resend
-					sendAck(true);
+					sendAck (true);
 				}
-					
 			}
 
 
@@ -205,7 +204,6 @@ namespace Transportlaget
 			Array.Copy (buffer, 4, buf, 0, buffer.Length-4); //copy data to buf
 
 			Console.WriteLine("Transport receiving:\n" + Link.BytesToString (buffer));
-
 
 			return buf.Length;
 		}
