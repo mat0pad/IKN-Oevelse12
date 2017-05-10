@@ -77,8 +77,6 @@ namespace tcp
 
 			Console.WriteLine ("Filname received:\n" + name);
 
-		
-
 			return name;
 		}
 
