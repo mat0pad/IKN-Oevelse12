@@ -124,36 +124,30 @@ namespace Transportlaget
 				// set seq to not old seq
 				seqNo = (byte)((old_seqNo + 1) % 2);
 
-				Byte[] temparray = new byte[newSize];
+				//Byte[] temparray = new byte[newSize];
 
 				// Copy to buffer
-				Array.Copy (buf, 0, temparray, 4, size);
+				Array.Copy (buf, 0, buffer, 4, size);
 
 				// Set type
-				temparray[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
+				buffer[(int) TransCHKSUM.TYPE] = (byte)TransType.DATA;
 
 				// Set seqno
-				temparray[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
+				buffer[(int) TransCHKSUM.SEQNO] = (byte)seqNo;
 
 				// Calculate sum and low & high to index 0,1 ...
-				checksum.calcChecksum (ref temparray, newSize);
+				checksum.calcChecksum (ref buffer, newSize);
 
-				// TODO: Remove
-				byte[] test = new byte[4];
-				test [0] = temparray [0];
-				test [1] = temparray[1];
-				test [2] = temparray[2];
-				test [3] = temparray[3];
 
-				Console.WriteLine("Transport sending header:\n" + Link.BytesToString (temparray));
+				Console.WriteLine("Transport sending:\n" + Link.BytesToString (buffer));
 
 				// Send it through link layer
-				link.send (temparray, newSize);
+				link.send (buffer, newSize);
 
 				// Receive ack or resend
 				while (!receiveAck ()) {
 					// Send it through link layer
-					link.send (temparray, newSize);
+					link.send (buffer, newSize);
 				}
 
 			}
