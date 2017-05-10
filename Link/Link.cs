@@ -122,7 +122,7 @@ namespace Linklaget
 			test [3] = buf2Send [3];
 
 
-			//Console.WriteLine ("Link send:\n" + BytesToString(buf2Send));
+			Console.WriteLine ("\nLink send:\n" + BytesToString(buf2Send));
 
 
 			serialPort.Write (buf2Send,0,buf2Send.Length);
@@ -206,7 +206,7 @@ namespace Linklaget
 
 			Array.Copy (returnBuf,0, buf2Receive, 0, counter); 
 
-			//Console.WriteLine ("Link receive:\n" + BytesToString (buf2Receive));
+			Console.WriteLine ("\nLink receive:\n" + BytesToString (buf2Receive));
 	    	
 			buf = buf2Receive;
 
