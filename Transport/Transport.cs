@@ -123,7 +123,6 @@ namespace Transportlaget
 
 				// set seq to not old seq
 				//seqNo = (byte)((old_seqNo + 1) % 2);
-				seqNo = (byte)((seqNo + 1) % 2);
 
 				Byte[] temparray = new byte[newSize];
 
@@ -153,6 +152,7 @@ namespace Transportlaget
 					link.send (temparray, newSize);
 				}
 
+				//seqNo = (byte)((seqNo + 1) % 2);
 			}
 			else
 				throw new ArgumentOutOfRangeException("Size is bigger than " + BUFFER_SIZE);
