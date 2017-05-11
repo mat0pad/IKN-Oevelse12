@@ -184,7 +184,7 @@ namespace Transportlaget
 					// Send ack
 					sendAck (true);
 
-					seqNo = !buffer [(int)TransCHKSUM.SEQNO];
+					seqNo = (byte)((buffer [(int)TransCHKSUM.SEQNO] + 1) % 2);
 
 					Console.WriteLine ("BREAK CALLED");
 					break;
