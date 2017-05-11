@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Sockets;
 using Linklaget;
 using Transportlaget;
+using System.Threading;
 
 namespace tcp
 {
@@ -126,11 +127,50 @@ namespace tcp
 
 			return newArray;
 		}
-
+		/*
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Server starts...");
 			new file_server ();
+		}*/
+
+		public static void Main()
+		{
+
+			Console.WriteLine ("AWAITING MESSAGE");
+
+			Transport trans = new Transport (1000, "File_client");
+
+			byte[] buffer = new byte[1000];
+
+			var Thirdbyte = System.Text.Encoding.UTF8.GetBytes("KKK");
+
+			int i = 0;
+			while (i++ != 5) {
+				trans.receive (ref buffer);
+
+				Thread.Sleep (100);
+
+				Console.WriteLine ("First Received applikation");
+
+				Console.WriteLine ("SENDING");
+
+				trans.send (Thirdbyte, Thirdbyte.Length);
+
+				Console.WriteLine ("-------------------------------");
+			}
+			/*
+			trans.receive (ref buffer);
+
+			Console.WriteLine ("Second Received app");
+
+			trans.receive (ref buffer);
+
+			Console.WriteLine ("Third Received app");
+			*/
+
+
+
 		}
 	}
 }
