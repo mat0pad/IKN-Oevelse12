@@ -79,7 +79,7 @@ namespace Linklaget
 
 				throw new System.ArgumentException(@"Parameter cannot be larger than set buffersize of {BUFFER_SIZE}, was {size}", "size");
 
-			byte[] sendBuf = new byte[size*2];
+			byte[] sendBuf = new byte[BUFFER_SIZE*2];
 
 		//	Console.WriteLine ("SIZE " + size.ToString());
 
@@ -111,26 +111,27 @@ namespace Linklaget
 				
 			sendBuf [counter] = DELIMITERA;
 
-			byte[] buf2Send = new byte[counter+1];
+			//byte[] buf2Send = new byte[counter+1];
 
-			Array.Copy (sendBuf,0, buf2Send, 0, counter+1);
+			//Array.Copy (sendBuf,0, buf2Send, 0, counter+1);
 
 			//Console.WriteLine ("Link send data:\n" + System.Text.Encoding.UTF8.GetString(buf2Send).Substring(4));
 
 
-			byte[] test = new byte[4];
+			/*byte[] test = new byte[4];
 			test [0] = buf2Send [0];
 			test [1] = buf2Send [1];
 			test [2] = buf2Send [2];
-			test [3] = buf2Send [3];
+			test [3] = buf2Send [3];*/
 
 
-			Console.WriteLine ("\nLink send:\n" + BytesToString(buf2Send));
+			//Console.WriteLine ("\nLink send:\n" + BytesToString(sendBuf));
 
 
 			//serialPort.Write (buf2Send,0,buf2Send.Length);
 
-			serialPort.BaseStream.WriteAsync(buf2Send,0,buf2Send.Length);
+			serialPort.BaseStream.WriteAsync(sendBuf,0,sendBuf.Length);
+
 		}
 
 		public static string BytesToString (byte[] byteArray)
@@ -146,6 +147,7 @@ namespace Linklaget
 			sb.Append (" }");
 			return sb.ToString ();
 		}
+			
 
 		/// <summary>
 		/// Receive the specified buf and size.
@@ -161,21 +163,14 @@ namespace Linklaget
 			int numOfBytes;
 
 			do {
-				Thread.Sleep(1000);
 				numOfBytes = serialPort.BytesToRead;
-			} while (numOfBytes == 0);
+			} while (numOfBytes < 2008);
+
+			Console.WriteLine ("Numofbytes is: " + numOfBytes);
 
 			var tempBuf = new byte[BUFFER_SIZE * 2];
-			var returnBuf = new byte[BUFFER_SIZE];
-			///*
-		
-			/*tempBuf[0] = (byte)serialPort.ReadByte();
-			tempBuf[1] = (byte)serialPort.ReadByte();
-			int index = 2;
-			int countOfAs = 0;
-			while(true)
-			{
 
+			/*
 				tempBuf [index] = (byte)serialPort.ReadByte();
 				if (tempBuf [index] == (byte)DELIMITERA) {
 					if (++countOfAs == 2)
@@ -183,17 +178,13 @@ namespace Linklaget
 				}
 				if (index++ == tempBuf.Length)
 					break;
-
 			}*/
-			//*/
 
-			if (numOfBytes > BUFFER_SIZE * 2) {
-				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
-				numOfBytes = BUFFER_SIZE * 2;
-			} else {
-				serialPort.Read (tempBuf, 0, numOfBytes);
-			}
 
+			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
+
+				
+			var returnBuf = new byte[BUFFER_SIZE];
 
 			returnBuf [0] = tempBuf [0];
 			returnBuf [1] = tempBuf [1];
@@ -201,13 +192,15 @@ namespace Linklaget
 			returnBuf [3] = tempBuf [3];
 
 			var counter = 4; 
-
+			var numOfA = 1;
 			// i = 5 to remove A start
-			for (int i = 5; i < numOfBytes; i++) {
+			for (int i = 5; i < BUFFER_SIZE * 2; i++) {
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 
-					if (i == numOfBytes - 1)
+					numOfA++;
+
+					if (numOfA == 2)
 						break;
 				} 
 				else {
@@ -215,12 +208,14 @@ namespace Linklaget
 
 						returnBuf [counter] = DELIMITERA;
 						++counter;
+						++i;
 					} else if (tempBuf [i].Equals (DELIMITERB) && tempBuf [i + 1].Equals (DELIMITERD)) {
 
 						returnBuf [counter] = DELIMITERB;
 						++counter;
+						++i;
 					} else {
-					
+						
 						returnBuf [counter] = tempBuf [i];
 						++counter;
 					}
@@ -231,11 +226,13 @@ namespace Linklaget
 
 			Array.Copy (returnBuf,0, buf2Receive, 0, counter); 
 
-			Console.WriteLine ("\nLink receive:\n" + BytesToString (buf2Receive));
+			//Console.WriteLine ("\nLink receive:\n" + BytesToString (returnBuf));
 	    	
 			buf = buf2Receive;
 
 			return counter;
 		}
+
+
 	}
 }

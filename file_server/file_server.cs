@@ -112,6 +112,8 @@ namespace tcp
 				trans.send (sendBytes, count);
 			}
 
+			fs.Close ();
+
 			Console.WriteLine (" >> Send complete");
 		}
 
@@ -127,14 +129,14 @@ namespace tcp
 
 			return newArray;
 		}
-		/*
+
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Server starts...");
 			new file_server ();
-		}*/
+		}
 
-		public static void Main()
+		/*public static void Main()
 		{
 
 			Console.WriteLine ("AWAITING MESSAGE");
@@ -160,6 +162,6 @@ namespace tcp
 				 
 			}
 
-		}
+		}*/
 	}
 }

@@ -148,6 +148,7 @@ namespace Transportlaget
 				link.send (temparray, newSize);
 				Byte[] reSendArray = new byte[newSize];
 				Array.Copy (temparray, 0, reSendArray, 0, temparray.Length);
+
 				// Receive ack or resend
 				while (!receiveAck (ref temparray)) {
 					// Send it through link layer
@@ -184,7 +185,7 @@ namespace Transportlaget
 
 					// Set seq
 					//old_seqNo = seqNo;
-					Thread.Sleep(100);
+
 					// Send ack
 					sendAck (true);
 
@@ -195,7 +196,7 @@ namespace Transportlaget
 				} else {
 
 					Console.WriteLine ("Requesting resend...");
-					Thread.Sleep(100);
+
 					// Ack for resend
 					sendAck (false);
 				}
