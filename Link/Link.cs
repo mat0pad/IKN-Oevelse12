@@ -131,6 +131,7 @@ namespace Linklaget
 			//serialPort.Write (buf2Send,0,buf2Send.Length);
 
 			serialPort.BaseStream.WriteAsync(sendBuf,0,sendBuf.Length);
+
 		}
 
 		public static string BytesToString (byte[] byteArray)
@@ -169,14 +170,7 @@ namespace Linklaget
 
 			var tempBuf = new byte[BUFFER_SIZE * 2];
 
-			///*
-			/*tempBuf[0] = (byte)serialPort.ReadByte();
-			tempBuf[1] = (byte)serialPort.ReadByte();
-			int index = 2;
-			int countOfAs = 0;
-			while(true)
-			{
-				
+			/*
 				tempBuf [index] = (byte)serialPort.ReadByte();
 				if (tempBuf [index] == (byte)DELIMITERA) {
 					if (++countOfAs == 2)
@@ -185,6 +179,7 @@ namespace Linklaget
 				if (index++ == tempBuf.Length)
 					break;
 			}*/
+<<<<<<< HEAD
 			//*/
 			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
 			/*if (numOfBytes > BUFFER_SIZE * 2) {
@@ -193,7 +188,13 @@ namespace Linklaget
 			} else {
 				serialPort.Read (tempBuf, 0, numOfBytes);
 			}*/
+=======
 
+>>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
+
+			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
+
+				
 			var returnBuf = new byte[BUFFER_SIZE];
 
 			returnBuf [0] = tempBuf [0];
@@ -201,11 +202,18 @@ namespace Linklaget
 			returnBuf [2] = tempBuf [2];
 			returnBuf [3] = tempBuf [3];
 
+<<<<<<< HEAD
 
 			var counter = 4; 
 			var numOfA = 1;
 			// i = 5 to remove A start
 			for (int i = 5; i < BUFFER_SIZE*2; i++) {
+=======
+			var counter = 4; 
+			var numOfA = 1;
+			// i = 5 to remove A start
+			for (int i = 5; i < BUFFER_SIZE * 2; i++) {
+>>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 
@@ -226,7 +234,11 @@ namespace Linklaget
 						++counter;
 						++i;
 					} else {
+<<<<<<< HEAD
 
+=======
+						
+>>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
 						returnBuf [counter] = tempBuf [i];
 						++counter;
 					}
