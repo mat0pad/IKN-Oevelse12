@@ -116,20 +116,18 @@ namespace client
 			new file_client (args);
 		}*/
 
+
 		public static void Main()
 		{
 			
-			var firstbyte = System.Text.Encoding.UTF8.GetBytes("HEJ");
-			var secondbyte = System.Text.Encoding.UTF8.GetBytes("KLM");
-			var Thirdbyte = System.Text.Encoding.UTF8.GetBytes("KKK");
+			var firstbyte = System.Text.Encoding.UTF8.GetBytes ("JKSMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
 
 			byte[] buffer = new byte[1000];
 			int i = 0;
 			Transport trans = new Transport (1000, "FILE_CLIENT");
-			while (i++ != 5) {
+			while (i++ != 2) {
 				
-
-				Thread.Sleep (100);
+				//Thread.Sleep (100);
 
 				Console.WriteLine ("First SEND");
 				trans.send (firstbyte, firstbyte.Length);
@@ -137,18 +135,13 @@ namespace client
 				trans.receive (ref buffer);
 
 				Console.WriteLine ("-------------------------------");
+
+
 			}
-
-			/*
-
-			Console.WriteLine ("SECOND SEND");
-			trans.send (secondbyte, firstbyte.Length);
-
-			Console.WriteLine ("THIRD SEND");
-			trans.send (Thirdbyte, firstbyte.Length);
-			*/
+				
 
 		}
+
 
 	}
 }

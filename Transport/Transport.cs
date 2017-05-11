@@ -4,6 +4,9 @@ using Linklaget;
 /// <summary>
 /// Transport.
 /// </summary>
+using System.Threading;
+
+
 namespace Transportlaget
 {
 	/// <summary>
@@ -143,13 +146,15 @@ namespace Transportlaget
 
 				// Send it through link layer
 				link.send (temparray, newSize);
+				Byte[] reSendArray = new byte[newSize];
+				Array.Copy (temparray, 0, reSendArray, 0, temparray.Length);
 
 				// Receive ack or resend
 				while (!receiveAck (ref temparray)) {
 					// Send it through link layer
 					Console.WriteLine("Server requested resend of data due to bit errors");
 
-					link.send (temparray, newSize);
+					link.send (reSendArray, newSize);
 				}
 
 				//seqNo = (byte)((seqNo + 1) % 2);
@@ -180,7 +185,7 @@ namespace Transportlaget
 
 					// Set seq
 					//old_seqNo = seqNo;
-
+					Thread.Sleep(100);
 					// Send ack
 					sendAck (true);
 
@@ -191,6 +196,8 @@ namespace Transportlaget
 				} else {
 
 					Console.WriteLine ("Requesting resend...");
+
+					Thread.Sleep(100);
 
 					// Ack for resend
 					sendAck (false);
