@@ -4,6 +4,9 @@ using System.IO.Ports;
 /// <summary>
 /// Link.
 /// </summary>
+using System.Threading;
+
+
 namespace Linklaget
 {
 	/// <summary>
@@ -125,7 +128,9 @@ namespace Linklaget
 			Console.WriteLine ("\nLink send:\n" + BytesToString(buf2Send));
 
 
-			serialPort.Write (buf2Send,0,buf2Send.Length);
+			//serialPort.Write (buf2Send,0,buf2Send.Length);
+
+			serialPort.BaseStream.WriteAsync(buf2Send,0,buf2Send.Length);
 		}
 
 		public static string BytesToString (byte[] byteArray)
@@ -156,12 +161,31 @@ namespace Linklaget
 			int numOfBytes;
 
 			do {
+				Thread.Sleep(1000);
 				numOfBytes = serialPort.BytesToRead;
 			} while (numOfBytes == 0);
 
-
 			var tempBuf = new byte[BUFFER_SIZE * 2];
 			var returnBuf = new byte[BUFFER_SIZE];
+			///*
+		
+			/*tempBuf[0] = (byte)serialPort.ReadByte();
+			tempBuf[1] = (byte)serialPort.ReadByte();
+			int index = 2;
+			int countOfAs = 0;
+			while(true)
+			{
+
+				tempBuf [index] = (byte)serialPort.ReadByte();
+				if (tempBuf [index] == (byte)DELIMITERA) {
+					if (++countOfAs == 2)
+						break;
+				}
+				if (index++ == tempBuf.Length)
+					break;
+
+			}*/
+			//*/
 
 			if (numOfBytes > BUFFER_SIZE * 2) {
 				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
@@ -169,6 +193,7 @@ namespace Linklaget
 			} else {
 				serialPort.Read (tempBuf, 0, numOfBytes);
 			}
+
 
 			returnBuf [0] = tempBuf [0];
 			returnBuf [1] = tempBuf [1];

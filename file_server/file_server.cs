@@ -146,10 +146,10 @@ namespace tcp
 			var Thirdbyte = System.Text.Encoding.UTF8.GetBytes("KKK");
 
 			int i = 0;
-			while (i++ != 5) {
+			while (i++ != 2) {
 				trans.receive (ref buffer);
-
-				Thread.Sleep (100);
+			
+				//Thread.Sleep (100);
 
 				Console.WriteLine ("First Received applikation");
 
@@ -157,19 +157,8 @@ namespace tcp
 
 				trans.send (Thirdbyte, Thirdbyte.Length);
 
-				Console.WriteLine ("-------------------------------");
+				 
 			}
-			/*
-			trans.receive (ref buffer);
-
-			Console.WriteLine ("Second Received app");
-
-			trans.receive (ref buffer);
-
-			Console.WriteLine ("Third Received app");
-			*/
-
-
 
 		}
 	}
