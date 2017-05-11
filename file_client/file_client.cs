@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -108,11 +109,46 @@ namespace client
 			Console.WriteLine ("\nDownload complete");
 		}
 			
-
+		/*
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Client starts...");
 			new file_client (args);
+		}*/
+
+		public static void Main()
+		{
+			
+			var firstbyte = System.Text.Encoding.UTF8.GetBytes("HEJ");
+			var secondbyte = System.Text.Encoding.UTF8.GetBytes("KLM");
+			var Thirdbyte = System.Text.Encoding.UTF8.GetBytes("KKK");
+
+			byte[] buffer = new byte[1000];
+			int i = 0;
+			Transport trans = new Transport (1000, "FILE_CLIENT");
+			while (i++ != 5) {
+				
+
+				Thread.Sleep (100);
+
+				Console.WriteLine ("First SEND");
+				trans.send (firstbyte, firstbyte.Length);
+
+				trans.receive (ref buffer);
+
+				Console.WriteLine ("-------------------------------");
+			}
+
+			/*
+
+			Console.WriteLine ("SECOND SEND");
+			trans.send (secondbyte, firstbyte.Length);
+
+			Console.WriteLine ("THIRD SEND");
+			trans.send (Thirdbyte, firstbyte.Length);
+			*/
+
 		}
+
 	}
 }
