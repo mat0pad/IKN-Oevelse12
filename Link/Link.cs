@@ -125,7 +125,7 @@ namespace Linklaget
 			test [3] = buf2Send [3];*/
 
 
-			Console.WriteLine ("\nLink send:\n" + BytesToString(sendBuf));
+			//Console.WriteLine ("\nLink send:\n" + BytesToString(sendBuf));
 
 
 			//serialPort.Write (buf2Send,0,buf2Send.Length);
@@ -163,8 +163,9 @@ namespace Linklaget
 
 			do {
 				numOfBytes = serialPort.BytesToRead;
-			} while (numOfBytes >= 2008);
+			} while (numOfBytes < 2008);
 
+			Console.WriteLine ("Numofbytes is: " + numOfBytes);
 
 			var tempBuf = new byte[BUFFER_SIZE * 2];
 
@@ -185,13 +186,13 @@ namespace Linklaget
 					break;
 			}*/
 			//*/
-
-			if (numOfBytes > BUFFER_SIZE * 2) {
+			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
+			/*if (numOfBytes > BUFFER_SIZE * 2) {
 				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
 				numOfBytes = BUFFER_SIZE * 2;
 			} else {
 				serialPort.Read (tempBuf, 0, numOfBytes);
-			}
+			}*/
 
 			var returnBuf = new byte[BUFFER_SIZE];
 
@@ -200,14 +201,17 @@ namespace Linklaget
 			returnBuf [2] = tempBuf [2];
 			returnBuf [3] = tempBuf [3];
 
-			var counter = 4; 
 
+			var counter = 4; 
+			var numOfA = 1;
 			// i = 5 to remove A start
-			for (int i = 5; i < numOfBytes; i++) {
+			for (int i = 5; i < BUFFER_SIZE*2; i++) {
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 
-					if (i == numOfBytes - 1)
+					numOfA++;
+
+					if (numOfA == 2)
 						break;
 				} 
 				else {
@@ -215,23 +219,26 @@ namespace Linklaget
 
 						returnBuf [counter] = DELIMITERA;
 						++counter;
+						++i;
 					} else if (tempBuf [i].Equals (DELIMITERB) && tempBuf [i + 1].Equals (DELIMITERD)) {
 
 						returnBuf [counter] = DELIMITERB;
 						++counter;
+						++i;
 					} else {
-					
+
 						returnBuf [counter] = tempBuf [i];
 						++counter;
 					}
 				}
 			}
 
+
 			byte[] buf2Receive = new byte[counter];
 
 			Array.Copy (returnBuf,0, buf2Receive, 0, counter); 
 
-			Console.WriteLine ("\nLink receive:\n" + BytesToString (buf2Receive));
+			//Console.WriteLine ("\nLink receive:\n" + BytesToString (returnBuf));
 	    	
 			buf = buf2Receive;
 

@@ -185,7 +185,7 @@ namespace Transportlaget
 
 					// Set seq
 					//old_seqNo = seqNo;
-					Thread.Sleep(100);
+
 					// Send ack
 					sendAck (true);
 
@@ -196,8 +196,6 @@ namespace Transportlaget
 				} else {
 
 					Console.WriteLine ("Requesting resend...");
-
-					Thread.Sleep(100);
 
 					// Ack for resend
 					sendAck (false);

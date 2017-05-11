@@ -109,15 +109,15 @@ namespace client
 			Console.WriteLine ("\nDownload complete");
 		}
 			
-		/*
+
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Client starts...");
 			new file_client (args);
-		}*/
+		}
 
 
-		public static void Main()
+		/*public static void Main()
 		{
 			
 			var firstbyte = System.Text.Encoding.UTF8.GetBytes ("JKSMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
@@ -140,7 +140,7 @@ namespace client
 			}
 				
 
-		}
+		}*/
 
 
 	}
