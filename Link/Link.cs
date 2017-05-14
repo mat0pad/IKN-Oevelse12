@@ -5,6 +5,8 @@ using System.IO.Ports;
 /// Link.
 /// </summary>
 using System.Threading;
+using tcp;
+using test;
 
 
 namespace Linklaget
@@ -28,6 +30,7 @@ namespace Linklaget
 		/// The buffer for link.
 		/// </summary>
 		private byte[] buffer;
+		private byte[] reSendBuffer;
 
 		private int BUFFER_SIZE;
 
@@ -54,6 +57,7 @@ namespace Linklaget
 			if (!serialPort.IsOpen)
 				serialPort.Open ();
 
+			reSendBuffer = new byte[(BUFSIZE)];
 			buffer = new byte[(BUFSIZE * 2)];
 			BUFFER_SIZE = BUFSIZE;
 
@@ -82,6 +86,9 @@ namespace Linklaget
 			byte[] sendBuf = new byte[BUFFER_SIZE*2];
 
 		//	Console.WriteLine ("SIZE " + size.ToString());
+
+			Array.Copy(buf,0,reSendBuffer,0,size); // For later resend if timeout
+
 
 			Array.Copy(buf,0,sendBuf,0,size);
 
@@ -127,10 +134,9 @@ namespace Linklaget
 
 			//Console.WriteLine ("\nLink send:\n" + BytesToString(sendBuf));
 
+			//serialPort.BaseStream.WriteAsync(sendBuf,0,sendBuf.Length);
 
-			//serialPort.Write (buf2Send,0,buf2Send.Length);
-
-			serialPort.BaseStream.WriteAsync(sendBuf,0,sendBuf.Length);
+			serialPort.Write(sendBuf,0,sendBuf.Length);
 
 		}
 
@@ -160,41 +166,43 @@ namespace Linklaget
 		/// </param>
 		public int receive (ref byte[] buf)
 		{
-			int numOfBytes;
+
+			int numOfBytes = 0;
+			var tempBuf = new byte[BUFFER_SIZE * 2];
+			int Oldnum = 0;
+			int loop = 0;
 
 			do {
+
 				numOfBytes = serialPort.BytesToRead;
-			} while (numOfBytes < 2008);
 
-			Console.WriteLine ("Numofbytes is: " + numOfBytes);
-
-			var tempBuf = new byte[BUFFER_SIZE * 2];
-
-			/*
-				tempBuf [index] = (byte)serialPort.ReadByte();
-				if (tempBuf [index] == (byte)DELIMITERA) {
-					if (++countOfAs == 2)
-						break;
-				}
-				if (index++ == tempBuf.Length)
-					break;
-			}*/
-<<<<<<< HEAD
-			//*/
-			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
-			/*if (numOfBytes > BUFFER_SIZE * 2) {
-				serialPort.Read (tempBuf, 0, BUFFER_SIZE);
-				numOfBytes = BUFFER_SIZE * 2;
-			} else {
-				serialPort.Read (tempBuf, 0, numOfBytes);
-			}*/
-=======
-
->>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
-
-			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
-
+				if (numOfBytes != 0)
+					Oldnum = numOfBytes;
 				
+				if(loop == 100000){
+					Console.WriteLine ("Numofbytes is: " + Oldnum);
+					break;
+				}
+				loop++;
+
+			} while (numOfBytes < BUFFER_SIZE*2);
+				
+
+			//Console.WriteLine ("Numofbytes is: " + numOfBytes);
+
+
+			// Because serialPort often result in fault transmission we hanlde it here
+			if (numOfBytes < BUFFER_SIZE*2) { 
+				if(numOfBytes != 0) 
+					serialPort.Read (tempBuf, 0, numOfBytes);
+				
+				//Console.WriteLine ("Returned 0");						
+				return 0;
+			}
+
+			serialPort.Read (tempBuf, 0, BUFFER_SIZE*2);
+
+
 			var returnBuf = new byte[BUFFER_SIZE];
 
 			returnBuf [0] = tempBuf [0];
@@ -202,18 +210,12 @@ namespace Linklaget
 			returnBuf [2] = tempBuf [2];
 			returnBuf [3] = tempBuf [3];
 
-<<<<<<< HEAD
 
 			var counter = 4; 
 			var numOfA = 1;
+
 			// i = 5 to remove A start
-			for (int i = 5; i < BUFFER_SIZE*2; i++) {
-=======
-			var counter = 4; 
-			var numOfA = 1;
-			// i = 5 to remove A start
-			for (int i = 5; i < BUFFER_SIZE * 2; i++) {
->>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
+			for (int i = 5; i < BUFFER_SIZE * 2 && counter < BUFFER_SIZE; i++) {
 
 				if (tempBuf [i].Equals (DELIMITERA)) {
 
@@ -234,11 +236,7 @@ namespace Linklaget
 						++counter;
 						++i;
 					} else {
-<<<<<<< HEAD
-
-=======
 						
->>>>>>> 94f232139fecc92d46ce64bd4688f55ee137a38c
 						returnBuf [counter] = tempBuf [i];
 						++counter;
 					}
@@ -257,6 +255,12 @@ namespace Linklaget
 			return counter;
 		}
 
+
+		public void resend(){
+		
+			send (reSendBuffer, reSendBuffer.Length);
+
+		}
 
 	}
 }

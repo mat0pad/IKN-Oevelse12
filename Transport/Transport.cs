@@ -74,7 +74,7 @@ namespace Transportlaget
 		/// <returns>
 		/// The ack.
 		/// </returns>
-		private bool receiveAck(ref byte[] buffer)
+		private bool receiveAck(byte[] buffer)
 		{
 			recvSize = link.receive(ref buffer);
 			dataReceived = true;
@@ -150,7 +150,7 @@ namespace Transportlaget
 				Array.Copy (temparray, 0, reSendArray, 0, temparray.Length);
 
 				// Receive ack or resend
-				while (!receiveAck (ref temparray)) {
+				while (!receiveAck (temparray)) {
 					// Send it through link layer
 					Console.WriteLine("Server requested resend of data due to bit errors");
 
@@ -174,14 +174,24 @@ namespace Transportlaget
 			while (true) {
 
 				// Receive size
-				recvSize = link.receive (ref buffer);
+				bool shouldSendACK = false;
+				while(!shouldSendACK){
+					recvSize = link.receive (ref buffer);
+
+					if (recvSize != 0) {
+						shouldSendACK = true;
+					} else {
+						//Console.WriteLine ("NACK!");
+						sendAck (false);
+					}
+				}
 
 				seqNo = buffer [(int)TransCHKSUM.SEQNO];
 
 				// Send Ack
 				if (checksum.checkChecksum (buffer, recvSize) /*&& seqNo != old_seqNo*/) {
 
-					Console.WriteLine ("Ack: " + seqNo);
+					//Console.WriteLine ("Ack seqNo: " + seqNo);
 
 					// Set seq
 					//old_seqNo = seqNo;
@@ -191,7 +201,7 @@ namespace Transportlaget
 
 					seqNo = (byte)((buffer [(int)TransCHKSUM.SEQNO] + 1) % 2);
 
-					Console.WriteLine ("BREAK CALLED");
+					//Console.WriteLine ("BREAK CALLED");
 					break;
 				} else {
 
@@ -207,7 +217,7 @@ namespace Transportlaget
 
 			Array.Copy (buffer, 4, buf, 0, buffer.Length-4); //copy data to buf
 
-			Console.WriteLine("Transport receiving:\n" + Link.BytesToString (buffer));
+			//Console.WriteLine("Transport receiving:\n" + Link.BytesToString (buffer));
 
 			return buf.Length;
 		}

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using Transportlaget;
 using Linklaget;
+using test;
 using tcp;
 
 namespace client
@@ -120,21 +121,21 @@ namespace client
 		/*public static void Main()
 		{
 			
-			var firstbyte = System.Text.Encoding.UTF8.GetBytes ("JKSMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
+			var firstbyte = System.Text.Encoding.UTF8.GetBytes ("TEST123");
 
 			byte[] buffer = new byte[1000];
 			int i = 0;
 			Transport trans = new Transport (1000, "FILE_CLIENT");
-			while (i++ != 2) {
+			while (i++ != 1) {
 				
 				//Thread.Sleep (100);
 
-				Console.WriteLine ("First SEND");
+				Console.WriteLine (" > SENDING - TEST123");
 				trans.send (firstbyte, firstbyte.Length);
 
 				trans.receive (ref buffer);
 
-				Console.WriteLine ("-------------------------------");
+				Console.WriteLine ("-------------------------------" + "\nReceived\n" + System.Text.Encoding.UTF8.GetString(buffer));
 
 
 			}
